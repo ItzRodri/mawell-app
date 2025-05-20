@@ -9,13 +9,17 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-linear-to-r/srgb from-[#2079AB] to-[#0E3855] opacity-90">
+    <nav className="bg-gradient-to-r from-[#2079AB]/80 to-[#0E3855]/80 backdrop-blur-sm z-20">
       <div className="max-w-full mx-auto px-2 sm:px-6 lg:px-28">
         <div className="flex items-center justify-between h-16 ">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <a href="/" className="text-white text-2xl font-bold">
-                <img src="/mawell-icon.svg" alt="logo" className="w-40 h-40" />
+                <img
+                  src="/mawell-icon.svg"
+                  alt="logo"
+                  className="w-24 h-auto"
+                />
               </a>
             </div>
           </div>
