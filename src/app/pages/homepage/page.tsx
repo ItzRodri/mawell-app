@@ -9,7 +9,7 @@ export default function HomePage() {
         loop
         playsInline
       >
-        <source src="/video/mawellvideportada.mp4" type="video/mp4" />
+        <source src="/video/oficialvideo.mp4" type="video/mp4" />
         Tu navegador no soporta el video.
       </video>
 
