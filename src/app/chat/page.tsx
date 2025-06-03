@@ -16,7 +16,7 @@ export default function ChatPage() {
         <h2 className="text-2xl font-bold mb-6 text-center">
           Asistente Virtual
         </h2>
-        <p>Aquí iría tu interfaz de chat 🤖</p>
+        <p className="text-center">Proximamente🤖</p>
       </div>
     </div>
   );
