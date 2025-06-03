@@ -9,9 +9,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#2079AB]/80 to-[#0E3855]/80 backdrop-blur-sm z-20">
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#2079AB]/80 to-[#0E3855]/80 backdrop-blur-sm z-50">
       <div className="max-w-full mx-auto px-2 sm:px-6 lg:px-28">
-        <div className="flex items-center justify-between h-16 ">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <a href="/" className="text-white text-2xl font-bold">
@@ -23,39 +23,45 @@ export default function Navbar() {
               </a>
             </div>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center space-x-4">
-              <a
-                href="/"
-                className="text-white hover:bg-black hover:text-white  rounded-lg p-2"
-              >
-                Inicio
-              </a>
-              <a
-                href="/"
-                className="text-white hover:bg-black hover:text-white  rounded-lg p-2"
-              >
-                Servicios
-              </a>
-              <a
-                href="/"
-                className="text-white hover:bg-black hover:text-white  rounded-lg p-2"
-              >
-                Tipos de equipos
-              </a>
-              <a
-                href="/"
-                className="text-white hover:bg-black hover:text-white  rounded-lg p-2"
-              >
-                Nosotros
-              </a>
-              <a
-                href="/"
-                className="text-white hover:bg-black hover:text-white  rounded-lg p-2"
-              >
-                Asistente
-              </a>
-            </div>
+          <div className="hidden md:flex items-center space-x-4">
+            <a
+              href="/"
+              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            >
+              Inicio
+            </a>
+            <a
+              href="/"
+              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            >
+              Servicios
+            </a>
+            <a
+              href="/"
+              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            >
+              Tipos de equipos
+            </a>
+            <a
+              href="/"
+              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            >
+              Nosotros
+            </a>
+            <a
+              href="/"
+              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            >
+              Asistente
+            </a>
+          </div>
+          <div className="hidden md:flex items-center space-x-4">
+            <a
+              href="/login"
+              className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+            >
+              Logéate
+            </a>
           </div>
           <div className="md:hidden flex items-center">
             <button
@@ -127,6 +133,13 @@ export default function Navbar() {
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-black hover:text-white"
             >
               Asistente
+            </a>
+            {/* Botón de login en mobile (opcional) */}
+            <a
+              href="/login"
+              className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2"
+            >
+              Logéate
             </a>
           </div>
         </div>
