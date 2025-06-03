@@ -1,11 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [isClick, setIsClick] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const usuarioId = localStorage.getItem("usuario_id");
+    setIsLoggedIn(!!usuarioId);
+  }, []);
 
   const toggleNavbar = () => {
     setIsClick(!isClick);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("usuario_id");
+    setIsLoggedIn(false);
+    router.push("/"); // Redirige al home al cerrar sesión
+  };
+
+  const handleRedirect = () => {
+    router.push("/chat");
   };
 
   return (
@@ -56,12 +74,21 @@ export default function Navbar() {
             </a>
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            <a
-              href="/login"
-              className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
-            >
-              Logéate
-            </a>
+            {isLoggedIn ? (
+              <button
+                onClick={handleRedirect}
+                className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
+              >
+                <span className="material-icons mr-2">smart_toy</span> Asistente
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+              >
+                Logéate
+              </a>
+            )}
           </div>
           <div className="md:hidden flex items-center">
             <button
@@ -134,13 +161,22 @@ export default function Navbar() {
             >
               Asistente
             </a>
-            {/* Botón de login en mobile (opcional) */}
-            <a
-              href="/login"
-              className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2"
-            >
-              Logéate
-            </a>
+            {/* Botón de login en mobile */}
+            {isLoggedIn ? (
+              <button
+                onClick={handleRedirect}
+                className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2 w-full"
+              >
+                <span className="material-icons mr-2">smart_toy</span> Asistente
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2"
+              >
+                Logéate
+              </a>
+            )}
           </div>
         </div>
       )}

@@ -18,10 +18,12 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         const response = await loginUser(correo, contraseña);
+        // ✅ Guardar sesión
+        localStorage.setItem("usuario_id", response.usuario_id.toString());
         alert(`Login exitoso: Usuario ID: ${response.usuario_id}`);
-        // Redirigir o manejar estado global aquí
+        // Redirigir al chat o actualizar estado
       } else {
-        const user = await registerUser(nombre, correo, contraseña, 1); // rol_id por defecto
+        const user = await registerUser(nombre, correo, contraseña, 2); // 2 si quieres por defecto el rol de usuario
         alert(`Registro exitoso: Usuario ID: ${user.id}`);
         setIsLogin(true); // Vuelve al login tras registrarse
       }
