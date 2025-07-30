@@ -27,7 +27,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#2079AB]/80 to-[#0E3855]/80 backdrop-blur-sm z-50">
+    <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-[#2079AB]/95 to-[#0E3855]/95 backdrop-blur-sm z-50">
       <div className="max-w-full mx-auto px-2 sm:px-6 lg:px-28">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -49,19 +49,19 @@ export default function Navbar() {
               Inicio
             </a>
             <a
-              href="/"
+              href="/pages/services"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Servicios
             </a>
             <a
-              href="/"
+              href="/chat"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Tipos de equipos
             </a>
             <a
-              href="/"
+              href="/pages/about-us"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Nosotros
