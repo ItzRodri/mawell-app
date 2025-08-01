@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const [isClick, setIsClick] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showServicesDropdown, setShowServicesDropdown] = useState(false); // Estado para el menú desplegable
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function Navbar() {
                 <img
                   src="/mawell-icon.svg"
                   alt="logo"
-                  className="w-24 h-auto"
+                  className="w-24 h-auto"   
                 />
               </a>
             </div>
@@ -48,12 +49,40 @@ export default function Navbar() {
             >
               Inicio
             </a>
-            <a
-              href="/pages/services"
-              className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+            {/* Servicios con menú desplegable */}
+            <div
+              className="relative"
+              onMouseEnter={() => setShowServicesDropdown(true)}
+              onMouseLeave={() => setShowServicesDropdown(false)}
             >
-              Servicios
-            </a>
+              <a
+                href="/pages/services"
+                className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+              >
+                Servicios
+              </a>
+              {showServicesDropdown && (
+                <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 w-48">
+                  <ul className="py-2">
+                    <li className="px-4 py-2 hover:bg-gray-100">
+                      <a href="/pages/services/service1">MF</a>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100">
+                      <a href="/pages/services/service2">MT</a>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100">
+                      <a href="/pages/services/service3">ML</a>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100">
+                      <a href="/pages/services/service4">MQ</a>
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-100">
+                      <a href="/pages/services/service5">MB</a>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
             <a
               href="/chat"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
@@ -73,7 +102,7 @@ export default function Navbar() {
                 onClick={handleRedirect}
                 className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
               >
-               Asistente
+                Asistente
               </button>
             ) : (
               <a
@@ -155,7 +184,7 @@ export default function Navbar() {
                 onClick={handleRedirect}
                 className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2 w-full"
               >
-             Asistente
+                Asistente
               </button>
             ) : (
               <a

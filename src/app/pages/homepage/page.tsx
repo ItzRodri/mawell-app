@@ -65,7 +65,7 @@ export default function HomePage() {
       </section>
 
       {/* Sección Nuestros Servicios */}
-      <section className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] py-16 px-6 md:px-20 text-white">
+      <section className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] py-40 px-6 md:px-20 text-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-60 items-center">
           {/* Texto a la izquierda */}
           <div className="flex-1">

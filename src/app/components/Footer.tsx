@@ -1,7 +1,7 @@
 // app/components/Footer.tsx
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#0E3855]  to-black text-white  ">
+    <footer className="bg-gradient-to-b from-[#0E3855]  to-black text-white  py-16">
       <div className="border-t border-gray-700 px-2 sm:px-6 lg:px-28">
         <div className=" mx-auto  py-6 flex flex-col md:flex-row justify-between items-center">
           {/* Logo */}
@@ -9,7 +9,7 @@ export default function Footer() {
             <img
               src="/mawell-icon.svg"
               alt="Mawell Logo"
-              className="w-24 h-auto"
+              className="w-36 h-auto"
             />
           </div>
 
@@ -33,9 +33,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className=" mx-auto  py-4 flex flex-col md:flex-row justify-between text-sm text-gray-400">
+        <div className=" mx-auto  py-4 flex flex-col md:flex-row justify-between text-2xl text-gray-400 ">
           <p>Mawell S.R.L © 2025. All rights reserved.</p>
-          <div className="flex space-x-4 mt-2 md:mt-0">
+          <div className="flex space-x-4 mt-2 md:mt-0 ">
             <a href="#" className="hover:text-white">
               Home
             </a>
