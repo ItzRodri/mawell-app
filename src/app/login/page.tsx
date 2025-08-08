@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { loginUser } from "@/app/api/auth/login";
-import { registerUser } from "@/app/api/auth/register";
+import { useRouter } from "next/navigation";
+import apiClient from "@/lib/api";
 
 export default function AuthPage() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
@@ -15,16 +16,43 @@ export default function AuthPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
     try {
       if (isLogin) {
-        const response = await loginUser(correo, contraseña);
-        // ✅ Guardar sesión
-        localStorage.setItem("usuario_id", response.usuario_id.toString());
-        alert(`Login exitoso: Usuario ID: ${response.usuario_id}`);
-        // Redirigir al chat o actualizar estado
+        const response = await apiClient.login(correo, contraseña);
+        alert(`Login exitoso: ${response.user_name}`);
+
+        // Verificar si es admin y redirigir apropiadamente
+        if (response.user_role === 1) {
+          router.push("/admin");
+        } else {
+          router.push("/chat"); // o la página que corresponda para usuarios normales
+        }
       } else {
-        const user = await registerUser(nombre, correo, contraseña, 2); // 2 si quieres por defecto el rol de usuario
-        alert(`Registro exitoso: Usuario ID: ${user.id}`);
+        // Para registro, necesitamos adaptar la estructura
+        const registerData = {
+          nombre_completo: nombre,
+          correo: correo,
+          password: contraseña,
+          rol_id: 2, // Usuario normal por defecto
+        };
+
+        // Hacer request directo para registro (apiClient no tiene método register)
+        const response = await fetch("http://localhost:8000/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(registerData),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Error en el registro");
+        }
+
+        const user = await response.json();
+        alert(`Registro exitoso: ${user.nombre_completo}`);
         setIsLogin(true); // Vuelve al login tras registrarse
       }
     } catch (err: any) {
