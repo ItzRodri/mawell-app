@@ -51,33 +51,48 @@ export default function Navbar() {
             </a>
             {/* Servicios con menú desplegable */}
             <div
-              className="relative"
+              className="relative group" // Añadido group para efectos
               onMouseEnter={() => setShowServicesDropdown(true)}
               onMouseLeave={() => setShowServicesDropdown(false)}
             >
               <a
                 href="/pages/services"
-                className="text-white hover:bg-black hover:text-white rounded-lg p-2"
+                className="text-white hover:bg-black hover:text-white rounded-lg p-2 group-hover:bg-black" // Añadido group-hover
               >
                 Servicios
               </a>
               {showServicesDropdown && (
-                <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 w-48">
+                <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 w-64 transition-all duration-300 ease-in-out">
                   <ul className="py-2">
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <a href="/pages/services/service1">MF</a>
+                    <li className="hover:bg-gray-100 transition-colors duration-200">
+                      <a href="/pages/services/mf" className="px-4 py-3 flex items-center space-x-3">
+                        <span className="font-semibold text-gray-800">MF</span>
+                        <span className="text-sm text-gray-600">Mantenimiento y Filtración</span>
+                      </a>
                     </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <a href="/pages/services/service2">MT</a>
+                    <li className="hover:bg-gray-100 transition-colors duration-200">
+                      <a href="/pages/services/mt" className="px-4 py-3 flex items-center space-x-3">
+                        <span className="font-semibold text-gray-800">MT</span>
+                        <span className="text-sm text-gray-600">Mantenimiento Técnico</span>
+                      </a>
                     </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <a href="/pages/services/service3">ML</a>
+                    <li className="hover:bg-gray-100 transition-colors duration-200">
+                      <a href="/pages/services/ml" className="px-4 py-3 flex items-center space-x-3">
+                        <span className="font-semibold text-gray-800">ML</span>
+                        <span className="text-sm text-gray-600">Mantenimiento de Laboratorio</span>
+                      </a>
                     </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <a href="/pages/services/service4">MQ</a>
+                    <li className="hover:bg-gray-100 transition-colors duration-200">
+                      <a href="/pages/services/mq" className="px-4 py-3 flex items-center space-x-3">
+                        <span className="font-semibold text-gray-800">MQ</span>
+                        <span className="text-sm text-gray-600">Mantenimiento de Química</span>
+                      </a>
                     </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <a href="/pages/services/service5">MB</a>
+                    <li className="hover:bg-gray-100 transition-colors duration-200">
+                      <a href="/pages/services/mb" className="px-4 py-3 flex items-center space-x-3">
+                        <span className="font-semibold text-gray-800">MB</span>
+                        <span className="text-sm text-gray-600">Mantenimiento Biológico</span>
+                      </a>
                     </li>
                   </ul>
                 </div>
