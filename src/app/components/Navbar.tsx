@@ -37,7 +37,7 @@ export default function Navbar() {
                 <img
                   src="/mawell-icon.svg"
                   alt="logo"
-                  className="w-24 h-auto"   
+                  className="w-24 h-auto"
                 />
               </a>
             </div>
@@ -65,33 +65,58 @@ export default function Navbar() {
                 <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 w-64 transition-all duration-300 ease-in-out">
                   <ul className="py-2">
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a href="/pages/services/mf" className="px-4 py-3 flex items-center space-x-3">
+                      <a
+                        href="/pages/services/mf"
+                        className="px-4 py-3 flex items-center space-x-3"
+                      >
                         <span className="font-semibold text-gray-800">MF</span>
-                        <span className="text-sm text-gray-600">Mantenimiento y Filtración</span>
+                        <span className="text-sm text-gray-600">
+                          Mantenimiento y Filtración
+                        </span>
                       </a>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a href="/pages/services/mt" className="px-4 py-3 flex items-center space-x-3">
+                      <a
+                        href="/pages/services/mt"
+                        className="px-4 py-3 flex items-center space-x-3"
+                      >
                         <span className="font-semibold text-gray-800">MT</span>
-                        <span className="text-sm text-gray-600">Mantenimiento Técnico</span>
+                        <span className="text-sm text-gray-600">
+                          Mantenimiento Técnico
+                        </span>
                       </a>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a href="/pages/services/ml" className="px-4 py-3 flex items-center space-x-3">
+                      <a
+                        href="/pages/services/ml"
+                        className="px-4 py-3 flex items-center space-x-3"
+                      >
                         <span className="font-semibold text-gray-800">ML</span>
-                        <span className="text-sm text-gray-600">Mantenimiento de Laboratorio</span>
+                        <span className="text-sm text-gray-600">
+                          Mantenimiento de Laboratorio
+                        </span>
                       </a>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a href="/pages/services/mq" className="px-4 py-3 flex items-center space-x-3">
+                      <a
+                        href="/pages/services/mq"
+                        className="px-4 py-3 flex items-center space-x-3"
+                      >
                         <span className="font-semibold text-gray-800">MQ</span>
-                        <span className="text-sm text-gray-600">Mantenimiento de Química</span>
+                        <span className="text-sm text-gray-600">
+                          Mantenimiento de Química
+                        </span>
                       </a>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a href="/pages/services/mb" className="px-4 py-3 flex items-center space-x-3">
+                      <a
+                        href="/pages/services/mb"
+                        className="px-4 py-3 flex items-center space-x-3"
+                      >
                         <span className="font-semibold text-gray-800">MB</span>
-                        <span className="text-sm text-gray-600">Mantenimiento Biológico</span>
+                        <span className="text-sm text-gray-600">
+                          Mantenimiento Biológico
+                        </span>
                       </a>
                     </li>
                   </ul>
@@ -99,7 +124,7 @@ export default function Navbar() {
               )}
             </div>
             <a
-              href="/chat"
+              href="/pages/equipment-types"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Tipos de equipos

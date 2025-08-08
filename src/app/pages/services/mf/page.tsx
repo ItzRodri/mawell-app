@@ -1,61 +1,410 @@
+"use client";
+import { useState } from "react";
+
 export default function MFService() {
+  const [activeSection, setActiveSection] = useState("overview");
+
+  const fluidSystems = [
+    {
+      title: "Sistemas de Filtración Avanzada",
+      description:
+        "Tecnologías de filtración de vanguardia para procesos industriales críticos con eficiencia garantizada del 99.9%",
+      icon: "⚙️",
+      features: [
+        "Filtros multicapa de alta eficiencia",
+        "Sistemas de ultrafiltración y nanofiltración",
+        "Filtros autolimpiantes con retrolavado automático",
+        "Monitoreo continuo de calidad y rendimiento",
+      ],
+    },
+    {
+      title: "Mantenimiento Predictivo",
+      description:
+        "Programas de mantenimiento basados en análisis de datos y tecnología IoT para máxima disponibilidad",
+      icon: "🔽",
+      features: [
+        "Análisis vibracional y termográfico",
+        "Monitoreo en tiempo real de parámetros críticos",
+        "Mantenimiento basado en condición (CBM)",
+        "Reportes automáticos y alertas tempranas",
+      ],
+    },
+    {
+      title: "Optimización de Procesos",
+      description:
+        "Mejora continua de eficiencia operativa y reducción de costos mediante tecnología inteligente",
+      icon: "🎛️",
+      features: [
+        "Análisis de eficiencia energética",
+        "Optimización de caudales y presiones",
+        "Integración con sistemas ERP",
+        "Reducción de desperdicios hasta 30%",
+      ],
+    },
+  ];
+
+  const applications = [
+    {
+      icon: "🏭",
+      title: "Industria Química",
+      description: "Transferencia segura de químicos",
+    },
+    {
+      icon: "💧",
+      title: "Tratamiento de Agua",
+      description: "Purificación y distribución",
+    },
+    {
+      icon: "🍎",
+      title: "Industria Alimentaria",
+      description: "Procesamiento higiénico",
+    },
+    {
+      icon: "⛽",
+      title: "Petróleo y Gas",
+      description: "Manejo de hidrocarburos",
+    },
+    { icon: "🏥", title: "Farmacéutica", description: "Fluidos estériles" },
+    { icon: "🌱", title: "Agricultura", description: "Sistemas de riego" },
+  ];
+
   return (
-    <div className="pt-16 min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#2079AB] to-[#0E3855] text-white py-16">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-6">Mantenimiento y Filtración</h1>
-          <p className="text-xl mb-8">
-            Servicios especializados en mantenimiento y sistemas de filtración para equipos industriales
-          </p>
-        </div>
-      </section>
-
-      {/* Contenido Principal */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Descripción del Servicio */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold mb-4">Nuestros Servicios</h2>
-            <ul className="space-y-3">
-              <li className="flex items-center">
-                <svg className="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                Mantenimiento preventivo y correctivo
-              </li>
-              <li className="flex items-center">
-                <svg className="w-5 h-5 text-blue-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                Sistemas de filtración avanzados
-              </li>
-              {/* Añade más servicios según necesites */}
-            </ul>
+    <main className="bg-white">
+      {/* Hero Section - Style matching the slider */}
+      <section className="bg-gradient-to-b from-[#0E3855] to-[#2079AB] py-20 text-white relative overflow-hidden">
+        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
+          <div className="max-w-xl z-10">
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
+              Mantenimiento y<br />
+              Filtración
+            </h1>
+            <p className="text-lg mb-8 text-white/90">
+              Servicios especializados en mantenimiento y sistemas de filtración
+              industrial. Soluciones para transferir y controlar fluidos
+              industriales en plantas de procesos productivos.
+            </p>
+            <div className="flex gap-4">
+              <button className="bg-white text-[#0E3855] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105">
+                Solicitar Cotización
+              </button>
+              <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#0E3855] transition-all duration-300">
+                Ver Sistemas
+              </button>
+            </div>
           </div>
-
-          {/* Imagen o Ilustración */}
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+          <div className="relative">
             <img
-              src="/services/MF-service.jpg" // Asegúrate de tener esta imagen
+              src="/services/tesla.svg"
               alt="Mantenimiento y Filtración"
-              className="w-full h-auto rounded-lg"
+              className="w-48 lg:w-64 mt-12 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
             />
           </div>
         </div>
+        <span className="absolute left-8 top-[50%] transform -translate-y-1/2 text-6xl lg:text-8xl font-bold opacity-20 text-white">
+          MF
+        </span>
       </section>
 
-      {/* Sección de Contacto */}
-      <section className="bg-gray-100 py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-semibold mb-8 text-center">¿Necesitas este servicio?</h2>
-          <div className="text-center">
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-colors">
-              Contáctanos
-            </button>
-          </div>
+      {/* Navigation */}
+      <section className="bg-white shadow-sm sticky top-0 z-40">
+        <div className="container mx-auto px-6">
+          <nav className="flex space-x-8">
+            {[
+              { id: "overview", label: "Visión General" },
+              { id: "systems", label: "Sistemas" },
+              { id: "applications", label: "Aplicaciones" },
+              { id: "maintenance", label: "Mantenimiento" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveSection(tab.id)}
+                className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
+                  activeSection === tab.id
+                    ? "border-[#2079AB] text-[#2079AB]"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
         </div>
       </section>
-    </div>
+
+      {/* Dynamic Content */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-6">
+          {activeSection === "overview" && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                  Control y Manejo de Fluidos
+                </h2>
+                <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                  Especializados en el diseño, instalación y mantenimiento de
+                  sistemas para transferir y controlar fluidos industriales.
+                  Nuestros equipos de almacenamiento, impulsión, instrumentación
+                  y automatización garantizan la máxima eficiencia en sus
+                  procesos productivos.
+                </p>
+
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-[#2079AB] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xl">💧</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-2">
+                        Sistemas de Dosificación
+                      </h3>
+                      <p className="text-gray-600">
+                        Equipos de dosificación manual y automática para uso
+                        industrial, comercial y agrícola
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-[#2079AB] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xl">🔧</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-2">
+                        Mantenimiento Especializado
+                      </h3>
+                      <p className="text-gray-600">
+                        Respaldo técnico con personal altamente calificado y
+                        asesoría personalizada
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-[#2079AB] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xl">⚡</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-2">
+                        Automatización
+                      </h3>
+                      <p className="text-gray-600">
+                        Sistemas automatizados para control preciso y monitoreo
+                        continuo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold mb-6 text-gray-900">
+                  Solicita una Evaluación Gratuita
+                </h3>
+                <form className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Nombre de la empresa"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2079AB] focus:border-transparent"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Persona de contacto"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2079AB] focus:border-transparent"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Correo electrónico"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2079AB] focus:border-transparent"
+                  />
+                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2079AB] focus:border-transparent">
+                    <option>Tipo de industria</option>
+                    <option>Química</option>
+                    <option>Alimentaria</option>
+                    <option>Farmacéutica</option>
+                    <option>Tratamiento de agua</option>
+                    <option>Otra</option>
+                  </select>
+                  <textarea
+                    placeholder="Describe tus necesidades específicas..."
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2079AB] focus:border-transparent"
+                  />
+                  <button className="w-full bg-gradient-to-r from-[#2079AB] to-[#0E3855] text-white py-3 px-6 rounded-lg font-semibold hover:from-[#0E3855] hover:to-[#2079AB] transition-all duration-300">
+                    Solicitar Evaluación
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {activeSection === "systems" && (
+            <div>
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                  Sistemas de Fluidos
+                </h2>
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  Equipos especializados para cada tipo de aplicación industrial
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {fluidSystems.map((system, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                  >
+                    <div className="text-center mb-6">
+                      <div className="text-5xl mb-4">{system.icon}</div>
+                      <h3 className="text-xl font-bold mb-3 text-gray-900">
+                        {system.title}
+                      </h3>
+                      <p className="text-gray-600">{system.description}</p>
+                    </div>
+
+                    <div className="space-y-3">
+                      {system.features.map((feature, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center text-sm text-gray-600"
+                        >
+                          <div className="w-2 h-2 bg-[#2079AB] rounded-full mr-3"></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === "applications" && (
+            <div>
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                  Aplicaciones Industriales
+                </h2>
+                <p className="text-lg text-gray-600">
+                  Soluciones adaptadas para diferentes sectores industriales
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {applications.map((app, index) => (
+                  <div
+                    key={index}
+                    className="group bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <div className="text-center">
+                      <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                        {app.icon}
+                      </div>
+                      <h3 className="text-lg font-bold mb-2 text-gray-900">
+                        {app.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm">{app.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeSection === "maintenance" && (
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                  Programa de Mantenimiento
+                </h2>
+                <p className="text-lg text-gray-600">
+                  Mantenimiento preventivo y correctivo para maximizar la vida
+                  útil de tus equipos
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div className="bg-white p-8 rounded-xl shadow-lg">
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">
+                    Mantenimiento Preventivo
+                  </h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Inspecciones programadas
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Lubricación de equipos
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Calibración de instrumentos
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Reemplazo de componentes
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-white p-8 rounded-xl shadow-lg">
+                  <h3 className="text-xl font-bold mb-4 text-gray-900">
+                    Mantenimiento Correctivo
+                  </h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Diagnóstico de fallas
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Reparación especializada
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Respuesta de emergencia
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
+                      <span className="text-gray-700">
+                        Soporte técnico 24/7
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-[#2079AB] to-[#0E3855] text-white p-8 rounded-xl text-center">
+                <h3 className="text-2xl font-bold mb-4">
+                  Contrato de Mantenimiento
+                </h3>
+                <p className="mb-6">
+                  Asegura el funcionamiento óptimo de tus equipos con nuestros
+                  contratos de mantenimiento personalizados
+                </p>
+                <button className="bg-white text-[#2079AB] px-8 py-3 rounded-full hover:bg-gray-100 transition-colors font-semibold">
+                  Solicitar Propuesta
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }
