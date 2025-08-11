@@ -44,7 +44,7 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <a
-              href="/"
+              href="/chat"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Inicio
