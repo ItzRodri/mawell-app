@@ -138,9 +138,9 @@ export default function MBService() {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
           <div className="max-w-xl z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
-              Mantenimiento
+              Especialidades
               <br />
-              Biológico
+              Biologicas
             </h1>
             <p className="text-lg mb-8 text-white/90">
               Servicios para equipamiento biológico y biotecnológico. Sistemas

@@ -7,7 +7,7 @@ import icono1 from "/public/servicios.svg";
 const services = [
   {
     id: "mf",
-    title: "Mantenimiento y Filtración",
+    title: "Control y Manejo de Fluidos",
     subtitle: "MF",
     description:
       "Especialistas en mantenimiento preventivo y correctivo de sistemas de filtración industrial. Ofrecemos soluciones integrales para el control de calidad de fluidos en procesos industriales críticos, garantizando la máxima eficiencia operativa y cumplimiento normativo.",
@@ -17,7 +17,7 @@ const services = [
   },
   {
     id: "mt",
-    title: "Mantenimiento Técnico",
+    title: "Tecnologia de Equipos, Insumos e Ingenieria",
     subtitle: "MT",
     description:
       "Servicios técnicos especializados para equipamiento industrial de alta complejidad. Implementamos planes de mantenimiento predictivo utilizando tecnología de vanguardia para maximizar la vida útil de sus activos y minimizar paradas no programadas.",
@@ -27,7 +27,7 @@ const services = [
   },
   {
     id: "ml",
-    title: "Mantenimiento de Laboratorio",
+    title: "Reactivos y Equipos de Laboratorio",
     subtitle: "ML",
     description:
       "Mantenimiento especializado de equipos analíticos y de laboratorio. Garantizamos la precisión y trazabilidad de sus instrumentos mediante calibraciones certificadas y procedimientos validados bajo estándares internacionales de calidad.",
@@ -37,7 +37,7 @@ const services = [
   },
   {
     id: "mq",
-    title: "Mantenimiento Químico",
+    title: "Especialidades Químicas",
     subtitle: "MQ",
     description:
       "Mantenimiento integral de sistemas químicos industriales. Nuestros especialistas certificados aseguran la operación segura y eficiente de equipos de dosificación, reactores y sistemas de tratamiento químico bajo los más altos estándares de seguridad.",
@@ -47,7 +47,7 @@ const services = [
   },
   {
     id: "mb",
-    title: "Mantenimiento Biológico",
+    title: "Especialidades Biologicas",
     subtitle: "MB",
     description:
       "Servicios especializados para equipos biotecnológicos y de procesos biológicos. Mantenemos la integridad de sistemas críticos en biotecnología, farmacéutica y tratamiento biológico de aguas, cumpliendo con regulaciones GMP y FDA.",
@@ -95,8 +95,8 @@ export default function ServicesPage() {
                 {/* Text Content */}
                 <div className="max-w-xl z-10">
                   <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-white">
-                    {service.title.split(" ").map((word, i) => (
-                      <span key={i} className="block">
+                    {service.title.split("").map((word, i) => (
+                      <span key={i} className="">
                         {word}
                       </span>
                     ))}
