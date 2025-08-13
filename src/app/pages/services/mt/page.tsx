@@ -62,9 +62,9 @@ export default function MTService() {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
           <div className="max-w-xl z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
-              Mantenimiento
+              Tecnologia de Equipos, 
               <br />
-              Técnico
+              Insumos e Ingenieria
             </h1>
             <p className="text-lg mb-8 text-white/90">
               Soluciones técnicas avanzadas para equipamiento industrial.

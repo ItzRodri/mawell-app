@@ -90,9 +90,9 @@ export default function MQService() {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
           <div className="max-w-xl z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
-              Mantenimiento de
+              Especialidades
               <br />
-              Química
+              Quimicias
             </h1>
             <p className="text-lg mb-8 text-white/90">
               Mantenimiento especializado para equipos químicos. Sistemas de

@@ -16,7 +16,7 @@ export default function AboutUs() {
             <div className="w-full lg:w-1/2 mb-10 lg:mb-0 lg:pr-12">
               <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
                 <span className="text-sm font-semibold">
-                  Líderes desde 2002
+                  Bienvenidos
                 </span>
               </div>
               <h1 className="text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">

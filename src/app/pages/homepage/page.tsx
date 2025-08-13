@@ -45,12 +45,12 @@ export default function HomePage() {
                 <div className="text-white">
                   <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
                     <span className="text-sm font-semibold">
-                      Líderes desde 2002
+                      Bienvenidos
                     </span>
                   </div>
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
-                    <span className="block">Ingeniería Industrial</span>
-                    <span className="block text-yellow-300">de Vanguardia</span>
+                    <span className="">Mawell </span>
+                    <span className=" text-yellow-300">S.R.L</span>
                   </h1>
                   <p className="text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
                     Especialistas en{" "}

@@ -57,9 +57,9 @@ export default function MLService() {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
           <div className="max-w-xl z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
-              Mantenimiento de
+              Reactivos y Equipos
               <br />
-              Laboratorio
+              de Laboratorio
             </h1>
             <p className="text-lg mb-8 text-white/90">
               Servicios especializados para equipos de laboratorio.

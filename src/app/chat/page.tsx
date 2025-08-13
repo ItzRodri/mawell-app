@@ -1,343 +1,233 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface QuickCommand {
-  id: string;
-  label: string;
-  message: string;
-  category: "frequent" | "help" | "action";
+// Message shape
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+  createdAt?: number; // unix ms
 }
 
-const quickCommands: QuickCommand[] = [
-  {
-    id: "1",
-    label: "¿Qué puedes hacer?",
-    message: "¿Qué tipo de tareas puedes ayudarme a realizar?",
-    category: "frequent",
-  },
-  {
-    id: "2",
-    label: "Ayuda con código",
-    message: "Necesito ayuda para escribir o revisar código de programación",
-    category: "help",
-  },
-  {
-    id: "3",
-    label: "Explicar concepto",
-    message: "¿Puedes explicarme un concepto o tema específico?",
-    category: "help",
-  },
-  {
-    id: "4",
-    label: "Traducir texto",
-    message: "Necesito traducir un texto a otro idioma",
-    category: "action",
-  },
-  {
-    id: "5",
-    label: "Escribir email",
-    message: "Ayúdame a redactar un email profesional",
-    category: "action",
-  },
-  {
-    id: "6",
-    label: "Resolver problema",
-    message: "Tengo un problema específico que necesito resolver",
-    category: "help",
-  },
-];
+// Simple avatar component (no external libs)
+function Avatar({ role }: { role: ChatMessage["role"] }) {
+  const isUser = role === "user";
+  return (
+    <div
+      className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold shadow-md
+        ${isUser 
+          ? "bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white" 
+          : "bg-white text-[#0E3855] border-2 border-[#0E3855]"
+        }`}
+      aria-label={isUser ? "Usuario" : "Asistente"}
+      title={isUser ? "Tú" : "Asistente"}
+    >
+      {isUser ? "Tú" : "M"}
+    </div>
+  );
+}
 
-interface Message {
-  id: string;
-  content: string;
-  role: "user" | "assistant";
-  timestamp: Date;
+// Single message bubble
+function MessageBubble({ msg }: { msg: ChatMessage }) {
+  const isUser = msg.role === "user";
+
+  const time = useMemo(() => {
+    const d = new Date(msg.createdAt ?? Date.now());
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }, [msg.createdAt]);
+
+  return (
+    <div className={`flex w-full gap-4 ${isUser ? "justify-end" : "justify-start"}`}>
+      {!isUser && <Avatar role="assistant" />}
+
+      <div className={`max-w-[75%]`}>
+        <div
+          className={`whitespace-pre-wrap rounded-2xl px-6 py-3.5 leading-relaxed shadow-md
+          ${isUser 
+            ? "bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white" 
+            : "bg-white text-gray-800 border border-gray-200"
+          } ${isUser ? "rounded-br-sm" : "rounded-bl-sm"}
+        `}
+        >
+          {msg.content}
+        </div>
+        <div className={`mt-2 text-xs ${isUser ? "text-right text-[#0E3855]" : "text-gray-600"}`}>
+          {isUser ? "Tú" : "Asistente Mawell"} • {time}
+        </div>
+      </div>
+
+      {isUser && <Avatar role="user" />}
+    </div>
+  );
 }
 
 export default function ChatPage() {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      content:
-        "¡Hola Jose! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?",
-      role: "assistant",
-      timestamp: new Date(),
-    },
-  ]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll to bottom when new messages arrive
+  // Auto-scroll to bottom on new messages
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const scrollElement = scrollAreaRef.current;
-      scrollElement.scrollTo({
-        top: scrollElement.scrollHeight,
-        behavior: "smooth",
-      });
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isTyping]);
+  }, [chatHistory, isLoading]);
 
-  const handleSendMessage = async () => {
-    if (!message.trim()) return;
+  // Send message
+  const sendMessage = async () => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: message,
-      role: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
+    const userMsg: ChatMessage = { role: "user", content: trimmed, createdAt: Date.now() };
+    setChatHistory((prev) => [...prev, userMsg]);
     setMessage("");
-    setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `Entiendo tu pregunta: "${userMessage.content}". Como asistente de IA, estoy aquí para ayudarte con cualquier duda que tengas. ¿Podrías darme más detalles sobre lo que necesitas?`,
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: trimmed,
+          history: chatHistory, // previous history (pre-append is fine for simple context)
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "API error");
+
+      const assistantMsg: ChatMessage = {
         role: "assistant",
-        timestamp: new Date(),
+        content: data.text,
+        createdAt: Date.now(),
       };
-
-      setMessages((prev) => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+      setChatHistory((prev) => [...prev, assistantMsg]);
+    } catch (error) {
+      console.error("Error al procesar el mensaje:", error);
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Lo siento, hubo un error al procesar tu mensaje. Intenta nuevamente.",
+          createdAt: Date.now(),
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("es-ES", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const handleQuickCommand = (command: QuickCommand) => {
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: command.message,
-      role: "user",
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    setIsTyping(true);
-
-    // Simulate AI response based on command category
-    setTimeout(() => {
-      let responseContent = "";
-
-      switch (command.category) {
-        case "frequent":
-          responseContent =
-            "¡Excelente pregunta! Puedo ayudarte con una gran variedad de tareas como: escribir y revisar código, explicar conceptos complejos, traducir textos, redactar emails profesionales, resolver problemas técnicos, crear contenido, analizar datos y mucho más. ¿Hay algo específico en lo que te gustaría que te ayude?";
-          break;
-        case "help":
-          responseContent = `Perfecto, estaré encantado de ayudarte con "${command.label.toLowerCase()}". Por favor, compárteme más detalles sobre lo que necesitas y te proporcionaré la mejor asistencia posible.`;
-          break;
-        case "action":
-          responseContent = `Claro, puedo ayudarte con "${command.label.toLowerCase()}". Para darte la mejor asistencia, ¿podrías proporcionarme más información sobre lo que necesitas específicamente?`;
-          break;
-        default:
-          responseContent =
-            "Entiendo tu solicitud. ¿Podrías darme más detalles para poder ayudarte mejor?";
-      }
-
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: responseContent,
-        role: "assistant",
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const shouldShowQuickCommands = () => {
-    return (
-      messages.length <= 1 ||
-      messages[messages.length - 1]?.role === "assistant"
-    );
+  // Enter to send
+  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-4 py-3 flex items-center gap-3 shadow-sm">
-        <button
-          onClick={() => router.push("/")}
-          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#E3F2FD] via-white to-[#90CAF9]/30">
+      {/* Header mejorado */}
+      <header className="sticky top-0 z-10 bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white shadow-md">
+        <div className="mx-auto flex max-w-4xl items-center gap-4 px-6 py-4">
+          <button
+            onClick={() => router.push("/")}
+            className="rounded-full p-2 hover:bg-white/10 transition-colors"
+            aria-label="Volver"
+            title="Volver"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7 7-7M3 12h18" />
+            </svg>
+          </button>
+
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 backdrop-blur">
+              <span className="text-lg font-bold text-white">MW</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">Asistente Mawell</h1>
+              <p className="text-sm text-white/80">Siempre listo para ayudarte</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Chat container mejorado */}
+      <main className="mx-auto grid max-w-4xl grid-rows-[1fr_auto] px-6">
+        <div
+          ref={scrollRef}
+          className="mt-6 h-[calc(100vh-220px)] overflow-y-auto rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-lg border border-gray-100"
         >
-          ← Volver
-        </button>
+          {chatHistory.length === 0 ? (
+            <div className="flex h-full items-center justify-center">
+              <div className="text-center space-y-3">
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-[#0E3855] to-[#2079AB] flex items-center justify-center">
+                  <span className="text-2xl text-white font-bold">M</span>
+                </div>
+                <h2 className="text-2xl font-bold text-[#0E3855]">¡Bienvenido!</h2>
+                <p className="text-gray-600">¿En qué puedo ayudarte hoy?</p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-6">
+              {chatHistory.map((msg, i) => (
+                <MessageBubble key={i} msg={msg} />
+              ))}
 
-        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
-          IA
-        </div>
-
-        <div className="flex-1">
-          <h1 className="font-semibold text-slate-900">Asistente IA</h1>
-          <p className="text-sm text-slate-500">
-            {isTyping ? "Escribiendo..." : "En línea"}
-          </p>
-        </div>
-      </div>
-
-      {/* Messages Area */}
-      <div
-        ref={scrollAreaRef}
-        className="flex-1 overflow-y-auto p-4"
-        style={{ height: "calc(100vh - 140px)" }}
-      >
-        <div className="space-y-4 max-w-4xl mx-auto">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex gap-3 ${
-                msg.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              {msg.role === "assistant" && (
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-semibold mt-1">
-                  IA
+              {isLoading && (
+                <div className="flex items-center gap-4">
+                  <Avatar role="assistant" />
+                  <div className="flex gap-2 bg-white rounded-xl p-4 shadow-md">
+                    <div className="h-2.5 w-2.5 animate-bounce rounded-full bg-[#0E3855] [animation-delay:-0.3s]" />
+                    <div className="h-2.5 w-2.5 animate-bounce rounded-full bg-[#0E3855] [animation-delay:-0.15s]" />
+                    <div className="h-2.5 w-2.5 animate-bounce rounded-full bg-[#0E3855]" />
+                  </div>
                 </div>
               )}
+            </div>
+          )}
+        </div>
 
-              <div
-                className={`flex flex-col ${
-                  msg.role === "user" ? "items-end" : "items-start"
-                }`}
-              >
-                <div
-                  className={`max-w-xs sm:max-w-md lg:max-w-lg px-4 py-3 rounded-lg shadow-sm ${
-                    msg.role === "user"
-                      ? "bg-blue-500 text-white"
-                      : "bg-white border border-slate-200"
+        {/* Input mejorado */}
+        <div className="sticky bottom-6 mt-4">
+          <div className="mx-auto w-full rounded-2xl bg-white/80 backdrop-blur-sm p-3 shadow-lg border border-gray-100">
+            <div className="flex items-center gap-3">
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={onEnter}
+                placeholder="Escribe tu mensaje..."
+                className="flex-1 rounded-xl bg-transparent px-4 py-3 text-[15px] outline-none placeholder:text-gray-400"
+                disabled={isLoading}
+              />
+              <button
+                onClick={sendMessage}
+                disabled={isLoading || !message.trim()}
+                className={`rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-200
+                  ${isLoading || !message.trim()
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white hover:shadow-md active:scale-95"
                   }`}
-                >
-                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                    {msg.content}
-                  </p>
-                </div>
-
-                <span className="text-xs text-slate-500 mt-1 px-1">
-                  {formatTime(msg.timestamp)}
-                </span>
-              </div>
-
-              {msg.role === "user" && (
-                <div className="w-8 h-8 bg-slate-500 rounded-full flex items-center justify-center text-white text-xs font-semibold mt-1">
-                  TU
-                </div>
-              )}
+              >
+                Enviar
+              </button>
             </div>
-          ))}
-
-          {/* Typing Indicator */}
-          {isTyping && (
-            <div className="flex gap-3 justify-start">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-semibold mt-1">
-                IA
-              </div>
-
-              <div className="bg-white border border-slate-200 shadow-sm px-4 py-3 rounded-lg">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
-                  <div
-                    className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.1s" }}
-                  ></div>
-                  <div
-                    className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-                    style={{ animationDelay: "0.2s" }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Quick Commands */}
-          {shouldShowQuickCommands() && !isTyping && (
-            <div className="mt-6 space-y-4">
-              <div className="text-center">
-                <p className="text-sm text-slate-600 font-medium mb-3">
-                  Comandos rápidos para empezar
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-2xl mx-auto">
-                {quickCommands.map((command) => (
-                  <button
-                    key={command.id}
-                    onClick={() => handleQuickCommand(command)}
-                    className="p-3 text-left border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-all duration-200 bg-white shadow-sm"
-                  >
-                    <div className="w-full">
-                      <p className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
-                        {command.label}
-                      </p>
-                      <p className="text-xs text-slate-500 mt-1">
-                        {command.message}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              <div className="text-center">
-                <p className="text-xs text-slate-400">
-                  O escribe tu propia pregunta abajo
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Input Area */}
-      <div className="bg-white border-t border-slate-200 p-4">
-        <div className="max-w-4xl mx-auto flex gap-3 items-end">
-          <div className="flex-1 relative">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Escribe tu mensaje..."
-              className="w-full px-4 py-3 text-sm border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              disabled={isTyping}
-            />
           </div>
 
-          <button
-            onClick={handleSendMessage}
-            disabled={!message.trim() || isTyping}
-            className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white font-semibold transition-colors"
-          >
-            →
-          </button>
+          {/* Footer con estilo */}
+          <div className="mx-auto mt-3 max-w-3xl px-1">
+            <p className="text-center text-xs text-[#0E3855]/70 font-medium">
+              Asistente potenciado por IA • Mawell S.R.L.
+            </p>
+          </div>
         </div>
-
-        <p className="text-xs text-slate-500 text-center mt-2 max-w-4xl mx-auto">
-          Presiona Enter para enviar • Shift + Enter para nueva línea
-        </p>
-      </div>
+      </main>
     </div>
   );
 }

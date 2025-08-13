@@ -120,8 +120,8 @@ export default function ServicesPage() {
                 {/* Text Content */}
                 <div className="max-w-xl z-10">
                   <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-white">
-                    {service.nombre.split(" ").map((word, i) => (
-                      <span key={i} className="block">
+                    {service.nombre.split("").map((word, i) => (
+                      <span key={i} className="">
                         {word}
                       </span>
                     ))}
