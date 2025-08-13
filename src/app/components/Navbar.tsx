@@ -2,15 +2,36 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  role: number;
+}
+
 export default function Navbar() {
   const [isClick, setIsClick] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [showServicesDropdown, setShowServicesDropdown] = useState(false); // Estado para el menú desplegable
   const router = useRouter();
 
   useEffect(() => {
-    const usuarioId = localStorage.getItem("usuario_id");
-    setIsLoggedIn(!!usuarioId);
+    const token = localStorage.getItem("access_token");
+    const userDataStr = localStorage.getItem("user_data");
+
+    if (token && userDataStr) {
+      try {
+        const parsedUserData: UserData = JSON.parse(userDataStr);
+        setUserData(parsedUserData);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        // Limpiar datos corruptos
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user_data");
+      }
+    }
   }, []);
 
   const toggleNavbar = () => {
@@ -18,13 +39,28 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("usuario_id");
+    // Limpiar todos los datos de autenticación
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user_data");
+    localStorage.removeItem("usuario_id"); // Por compatibilidad
     setIsLoggedIn(false);
+    setUserData(null);
     router.push("/"); // Redirige al home al cerrar sesión
   };
 
   const handleRedirect = () => {
-    router.push("/chat");
+    if (userData?.role === 1) {
+      // Si es admin, ir al dashboard
+      router.push("/admin");
+    } else {
+      // Si es usuario normal, ir al chat
+      router.push("/chat");
+    }
+  };
+
+  const getButtonText = () => {
+    if (!userData) return "Logéate";
+    return userData.role === 1 ? "Dashboard" : "Asistente";
   };
 
   return (
@@ -138,18 +174,26 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-4">
             {isLoggedIn ? (
-              <button
-                onClick={handleRedirect}
-                className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
-              >
-                Asistente
-              </button>
+              <>
+                <button
+                  onClick={handleRedirect}
+                  className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
+                >
+                  {getButtonText()}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="ml-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+                >
+                  Cerrar Sesión
+                </button>
+              </>
             ) : (
               <a
                 href="/login"
                 className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
               >
-                Logéate
+                {getButtonText()}
               </a>
             )}
           </div>
@@ -220,18 +264,26 @@ export default function Navbar() {
             </a>
             {/* Botón de login en mobile */}
             {isLoggedIn ? (
-              <button
-                onClick={handleRedirect}
-                className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2 w-full"
-              >
-                Asistente
-              </button>
+              <>
+                <button
+                  onClick={handleRedirect}
+                  className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2 w-full"
+                >
+                  {getButtonText()}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="block rounded-full px-3 py-2 text-base font-medium text-white bg-red-600 hover:bg-red-700 text-center mt-2 w-full"
+                >
+                  Cerrar Sesión
+                </button>
+              </>
             ) : (
               <a
                 href="/login"
                 className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2"
               >
-                Logéate
+                {getButtonText()}
               </a>
             )}
           </div>
