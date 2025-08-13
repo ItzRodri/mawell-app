@@ -2,72 +2,95 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import apiClient from "@/lib/api";
 import icono1 from "/public/servicios.svg";
 
-const services = [
-  {
-    id: "mf",
-    title: "Mantenimiento y Filtración",
-    subtitle: "MF",
-    description:
-      "Especialistas en mantenimiento preventivo y correctivo de sistemas de filtración industrial. Ofrecemos soluciones integrales para el control de calidad de fluidos en procesos industriales críticos, garantizando la máxima eficiencia operativa y cumplimiento normativo.",
-    image: "/services/tesla.svg",
-    color: "from-[#0E3855] to-[#2079AB]",
-    link: "/pages/services/mf",
-  },
-  {
-    id: "mt",
-    title: "Mantenimiento Técnico",
-    subtitle: "MT",
-    description:
-      "Servicios técnicos especializados para equipamiento industrial de alta complejidad. Implementamos planes de mantenimiento predictivo utilizando tecnología de vanguardia para maximizar la vida útil de sus activos y minimizar paradas no programadas.",
-    image: "/services/BMW.svg",
-    color: "from-[#2079AB] to-[#1E6B96]",
-    link: "/pages/services/mt",
-  },
-  {
-    id: "ml",
-    title: "Mantenimiento de Laboratorio",
-    subtitle: "ML",
-    description:
-      "Mantenimiento especializado de equipos analíticos y de laboratorio. Garantizamos la precisión y trazabilidad de sus instrumentos mediante calibraciones certificadas y procedimientos validados bajo estándares internacionales de calidad.",
-    image: "/services/lamborghini.svg",
-    color: "from-[#1E6B96] to-[#0E3855]",
-    link: "/pages/services/ml",
-  },
-  {
-    id: "mq",
-    title: "Mantenimiento Químico",
-    subtitle: "MQ",
-    description:
-      "Mantenimiento integral de sistemas químicos industriales. Nuestros especialistas certificados aseguran la operación segura y eficiente de equipos de dosificación, reactores y sistemas de tratamiento químico bajo los más altos estándares de seguridad.",
-    image: "/services/logo-servicio.svg",
-    color: "from-[#0E3855] to-[#2079AB]",
-    link: "/pages/services/mq",
-  },
-  {
-    id: "mb",
-    title: "Mantenimiento Biológico",
-    subtitle: "MB",
-    description:
-      "Servicios especializados para equipos biotecnológicos y de procesos biológicos. Mantenemos la integridad de sistemas críticos en biotecnología, farmacéutica y tratamiento biológico de aguas, cumpliendo con regulaciones GMP y FDA.",
-    image: "/services/tesla.svg",
-    color: "from-[#2079AB] to-[#1E6B96]",
-    link: "/pages/services/mb",
-  },
-];
+interface Servicio {
+  id: number;
+  nombre: string;
+  categoria: string;
+  descripcion?: string;
+  url_portada?: string;
+  garantia?: string;
+  usuario_id: number;
+}
 
+// Mapeo de colores por categoría
+const colorMap: { [key: string]: string } = {
+  MF: "from-[#0E3855] to-[#2079AB]",
+  MT: "from-[#2079AB] to-[#1E6B96]",
+  ML: "from-[#1E6B96] to-[#0E3855]",
+  MQ: "from-[#0E3855] to-[#2079AB]",
+  MB: "from-[#2079AB] to-[#1E6B96]",
+};
+
+// Mapeo de rutas por categoría
+const linkMap: { [key: string]: string } = {
+  MF: "/pages/services/mf",
+  MT: "/pages/services/mt",
+  ML: "/pages/services/ml",
+  MQ: "/pages/services/mq",
+  MB: "/pages/services/mb",
+};
 export default function ServicesPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [services, setServices] = useState<Servicio[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % services.length);
-    }, 5000); // Cambia cada 5 segundos
-
-    return () => clearInterval(timer);
+    loadServices();
   }, []);
+
+  useEffect(() => {
+    if (services.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % services.length);
+      }, 5000); // Cambia cada 5 segundos
+
+      return () => clearInterval(timer);
+    }
+  }, [services.length]);
+
+  const loadServices = async () => {
+    try {
+      const serviciosData = await apiClient.getServicios();
+      setServices(serviciosData);
+    } catch (error) {
+      console.error("Error cargando servicios:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getServiceColor = (categoria: string) => {
+    return colorMap[categoria] || "from-[#0E3855] to-[#2079AB]";
+  };
+
+  const getServiceLink = (categoria: string) => {
+    return linkMap[categoria] || "/pages/services";
+  };
+
+  const getImageUrl = (url_portada?: string) => {
+    if (!url_portada) return "/services/logo-servicio.svg";
+    if (url_portada.startsWith("/files/")) {
+      return `${
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+      }${url_portada}`;
+    }
+    return url_portada;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Cargando servicios...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="bg-white">
@@ -86,7 +109,9 @@ export default function ServicesPage() {
           >
             {/* Background gradient */}
             <div
-              className={`absolute inset-0 bg-gradient-to-b ${service.color}`}
+              className={`absolute inset-0 bg-gradient-to-b ${getServiceColor(
+                service.categoria
+              )}`}
             />
 
             {/* Content */}
@@ -95,17 +120,19 @@ export default function ServicesPage() {
                 {/* Text Content */}
                 <div className="max-w-xl z-10">
                   <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-white">
-                    {service.title.split(" ").map((word, i) => (
+                    {service.nombre.split(" ").map((word, i) => (
                       <span key={i} className="block">
                         {word}
                       </span>
                     ))}
                   </h1>
                   <p className="text-lg mb-8 text-white/90">
-                    {service.description}
+                    {service.descripcion}
                   </p>
                   <button
-                    onClick={() => router.push(service.link)}
+                    onClick={() =>
+                      router.push(getServiceLink(service.categoria))
+                    }
                     className="bg-white text-[#0E3855] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                   >
                     Ver Más
@@ -115,8 +142,8 @@ export default function ServicesPage() {
                 {/* Image */}
                 <div className="relative">
                   <img
-                    src={service.image}
-                    alt={service.title}
+                    src={getImageUrl(service.url_portada)}
+                    alt={service.nombre}
                     className="w-48 lg:w-64 mt-12 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
                   />
                 </div>
@@ -124,7 +151,7 @@ export default function ServicesPage() {
 
               {/* Service Code */}
               <span className="absolute left-8 top-[50%] transform -translate-y-1/2 text-6xl lg:text-8xl font-bold opacity-20 text-white">
-                {service.subtitle}
+                {service.categoria}
               </span>
             </div>
           </div>
@@ -301,16 +328,18 @@ export default function ServicesPage() {
               >
                 {/* Service Header with Gradient */}
                 <div
-                  className={`relative h-32 bg-gradient-to-r ${service.color} flex items-center justify-center`}
+                  className={`relative h-32 bg-gradient-to-r ${getServiceColor(
+                    service.categoria
+                  )} flex items-center justify-center`}
                 >
                   <div className="absolute top-4 right-4">
                     <span className="text-white/30 text-2xl font-bold">
-                      {service.subtitle}
+                      {service.categoria}
                     </span>
                   </div>
                   <img
-                    src={service.image}
-                    alt={service.title}
+                    src={getImageUrl(service.url_portada)}
+                    alt={service.nombre}
                     className="w-16 h-16 object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
@@ -318,13 +347,15 @@ export default function ServicesPage() {
                 {/* Service Content */}
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-[#2079AB] transition-colors">
-                    {service.title}
+                    {service.nombre}
                   </h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">
-                    {service.description.substring(0, 100)}...
+                    {service.descripcion?.substring(0, 100)}...
                   </p>
                   <button
-                    onClick={() => router.push(service.link)}
+                    onClick={() =>
+                      router.push(getServiceLink(service.categoria))
+                    }
                     className="w-full bg-gradient-to-r from-[#2079AB] to-[#0E3855] text-white py-3 px-6 rounded-lg font-semibold hover:from-[#0E3855] hover:to-[#2079AB] transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
                   >
                     Conocer más
