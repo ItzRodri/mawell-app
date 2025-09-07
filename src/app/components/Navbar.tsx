@@ -176,12 +176,6 @@ export default function Navbar() {
             {isLoggedIn ? (
               <>
                 <button
-                  onClick={handleRedirect}
-                  className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
-                >
-                  {getButtonText()}
-                </button>
-                <button
                   onClick={handleLogout}
                   className="ml-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
                 >

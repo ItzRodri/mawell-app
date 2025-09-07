@@ -121,7 +121,7 @@ export default function EquipmentTypes() {
                 placeholder="Buscar equipos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-6 py-4 rounded-full text-gray-800 text-lg focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="w-full px-6 py-4 rounded-full text-gray-800 ring-1 ring-gray-300 text-lg focus:outline-none focus:ring-4 focus:ring-white/30"
               />
               <svg
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400"

@@ -63,11 +63,7 @@ export default function AboutUs() {
                   alt="MAWELL Servicios Industriales"
                   className="w-full max-w-md lg:max-w-lg h-auto filter drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                  <p className="text-sm font-semibold">
-                    Certificado ISO 9001:2015
-                  </p>
-                </div>
+              
               </div>
             </div>
           </div>
