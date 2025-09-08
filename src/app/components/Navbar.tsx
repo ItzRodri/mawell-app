@@ -59,7 +59,7 @@ export default function Navbar() {
   };
 
   const getButtonText = () => {
-    if (!userData) return "Logéate";
+    if (!userData) return "Iniciar sesión";
     return userData.role === 1 ? "Dashboard" : "Asistente";
   };
 

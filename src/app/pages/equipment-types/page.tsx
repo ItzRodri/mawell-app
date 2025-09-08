@@ -283,12 +283,7 @@ export default function EquipmentTypes() {
           </p>
           <button
             onClick={() => {
-              const message =
-                "Hola! Me gustaría recibir información sobre equipos industriales. ¿Podrían ayudarme?";
-              const whatsappUrl = `https://wa.me/59177824274?text=${encodeURIComponent(
-                message
-              )}`;
-              window.open(whatsappUrl, "_blank");
+              window.location.href = "/pages/about-us#contact-form";
             }}
             className="bg-white text-[#2079AB] px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
           >
