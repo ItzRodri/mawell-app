@@ -274,6 +274,44 @@ class ApiClient {
       method: "DELETE",
     });
   }
+
+  // Gestión de usuarios (solo admin)
+  async getUsers(): Promise<User[]> {
+    return this.request<User[]>("/admin/users");
+  }
+
+  async getUser(id: number): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`);
+  }
+
+  async updateUser(id: number, user: Partial<User>): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(user),
+    });
+  }
+
+  async deleteUser(id: number): Promise<{ message: string }> {
+    return this.request(`/admin/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async createUser(
+    user: Omit<User, "id"> & { password: string }
+  ): Promise<User> {
+    return this.request<User>("/admin/users", {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
+  }
+
+  async changeUserRole(id: number, rol_id: number): Promise<User> {
+    return this.request<User>(`/admin/users/${id}/role`, {
+      method: "PUT",
+      body: JSON.stringify({ rol_id }),
+    });
+  }
 }
 
 // Instancia singleton del cliente API
