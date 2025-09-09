@@ -324,7 +324,7 @@ export default function FloatingChatBubble() {
         className="w-16 h-16 bg-gradient-to-r from-[#0E3855] to-[#2079AB] rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 flex items-center justify-center group"
         title={isAuthenticated ? "Abrir chat" : "Iniciar sesión para chatear"}
       >
-        <div className="relative">
+        <div className="">
           <Image
             src="/mawell-icon.svg"
             alt="Chat Mawell"

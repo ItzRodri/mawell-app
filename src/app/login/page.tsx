@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/api";
 import EmailVerification from "@/components/EmailVerification";
-import { generateVerificationCode } from "@/lib/emailService";
+import { generateVerificationCode, sendVerificationEmail } from "@/lib/emailService";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -38,11 +38,16 @@ export default function AuthPage() {
           new Date().getTime().toString()
         );
 
-        // Mostrar código en consola para testing (en producción se enviaría por email)
-        console.log("🔐 Código de verificación:", verificationCode);
-        alert(
-          `Código de verificación enviado a ${correo}. Revisa la consola para ver el código (solo para testing).`
-        );
+      // ENVÍO REAL DEL CÓDIGO POR EMAIL
+      const emailSent = await sendVerificationEmail(correo, verificationCode, nombre || "Usuario");
+      if (!emailSent) {
+        setError("No se pudo enviar el código de verificación por email. Intenta nuevamente.");
+        setLoading(false);
+        return;
+      }
+
+      alert(`Código de verificación enviado a ${correo}. Revisa tu correo electrónico.`);
+
 
         setShowVerification(true);
       } else {
