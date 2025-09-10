@@ -80,7 +80,16 @@ export default function AdminPanel() {
     } else {
       filterAndSortUsers();
     }
-  }, [equipos, users, searchTerm, selectedService, sortBy, sortOrder, priceRange, activeTab]);
+  }, [
+    equipos,
+    users,
+    searchTerm,
+    selectedService,
+    sortBy,
+    sortOrder,
+    priceRange,
+    activeTab,
+  ]);
 
   const checkAuth = async () => {
     try {
@@ -191,7 +200,9 @@ export default function AdminPanel() {
     if (searchTerm) {
       filtered = filtered.filter(
         (user) =>
-          user.nombre_completo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.nombre_completo
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           user.correo.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -199,7 +210,7 @@ export default function AdminPanel() {
     // Ordenar
     filtered.sort((a, b) => {
       let comparison = 0;
-      
+
       switch (sortBy) {
         case "nombre":
           comparison = a.nombre_completo.localeCompare(b.nombre_completo);
@@ -295,7 +306,7 @@ export default function AdminPanel() {
     if (!editingUser) return;
 
     try {
-      const userData = {
+      const userData: Partial<User> & { password?: string } = {
         nombre_completo: formData.get("nombre_completo") as string,
         correo: formData.get("correo") as string,
         rol_id: parseInt(formData.get("rol_id") as string),
@@ -304,7 +315,7 @@ export default function AdminPanel() {
       // Solo incluir password si se proporcionó
       const password = formData.get("password") as string;
       if (password) {
-        (userData as any).password = password;
+        userData.password = password;
       }
 
       await apiClient.updateUser(editingUser.id, userData);
@@ -420,7 +431,7 @@ export default function AdminPanel() {
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
                   Panel de Equipos
-            </h1>
+                </h1>
                 <p className="text-sm text-gray-600">
                   Gestión de equipos por servicio - MAWELL S.R.L
                 </p>
@@ -461,8 +472,18 @@ export default function AdminPanel() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                />
               </svg>
               Gestión de Equipos
               <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
@@ -477,8 +498,18 @@ export default function AdminPanel() {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                />
               </svg>
               Gestión de Usuarios
               <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
@@ -494,13 +525,27 @@ export default function AdminPanel() {
             <>
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
-          <div>
-                    <p className="text-sm font-medium text-gray-600">Total Equipos</p>
-                    <p className="text-3xl font-bold text-[#0E3855]">{equipos.length}</p>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">
+                      Total Equipos
+                    </p>
+                    <p className="text-3xl font-bold text-[#0E3855]">
+                      {equipos.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
+                    <svg
+                      className="w-6 h-6 text-blue-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -509,12 +554,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Servicios Activos</p>
-                    <p className="text-3xl font-bold text-[#2079AB]">{servicios.length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Servicios Activos
+                    </p>
+                    <p className="text-3xl font-bold text-[#2079AB]">
+                      {servicios.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-6 h-6 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -523,12 +582,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Filtrados</p>
-                    <p className="text-3xl font-bold text-[#1E6B96]">{filteredEquipos.length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Filtrados
+                    </p>
+                    <p className="text-3xl font-bold text-[#1E6B96]">
+                      {filteredEquipos.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    <svg
+                      className="w-6 h-6 text-purple-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -537,14 +610,29 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Valor Total</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Valor Total
+                    </p>
                     <p className="text-2xl font-bold text-green-600">
-                      ${filteredEquipos.reduce((sum, eq) => sum + (eq.precio || 0), 0).toLocaleString()}
+                      $
+                      {filteredEquipos
+                        .reduce((sum, eq) => sum + (eq.precio || 0), 0)
+                        .toLocaleString()}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                    <svg
+                      className="w-6 h-6 text-yellow-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -555,12 +643,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Total Usuarios</p>
-                    <p className="text-3xl font-bold text-[#0E3855]">{users.length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Total Usuarios
+                    </p>
+                    <p className="text-3xl font-bold text-[#0E3855]">
+                      {users.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                    <svg
+                      className="w-6 h-6 text-blue-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -569,12 +671,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Administradores</p>
-                    <p className="text-3xl font-bold text-[#2079AB]">{users.filter(u => u.rol_id === 1).length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Administradores
+                    </p>
+                    <p className="text-3xl font-bold text-[#2079AB]">
+                      {users.filter((u) => u.rol_id === 1).length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    <svg
+                      className="w-6 h-6 text-red-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -583,12 +699,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Usuarios Regulares</p>
-                    <p className="text-3xl font-bold text-[#1E6B96]">{users.filter(u => u.rol_id === 2).length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Usuarios Regulares
+                    </p>
+                    <p className="text-3xl font-bold text-[#1E6B96]">
+                      {users.filter((u) => u.rol_id === 2).length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <svg
+                      className="w-6 h-6 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -597,12 +727,26 @@ export default function AdminPanel() {
               <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Filtrados</p>
-                    <p className="text-3xl font-bold text-purple-600">{filteredUsers.length}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Filtrados
+                    </p>
+                    <p className="text-3xl font-bold text-purple-600">
+                      {filteredUsers.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    <svg
+                      className="w-6 h-6 text-purple-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -710,11 +854,15 @@ export default function AdminPanel() {
                       d="M4 6h16M4 10h16M4 14h16M4 18h16"
                     />
                   </svg>
-              </button>
-            </div>
+                </button>
+              </div>
 
               <button
-                onClick={() => activeTab === "equipos" ? setShowEquipoForm(true) : setShowUserForm(true)}
+                onClick={() =>
+                  activeTab === "equipos"
+                    ? setShowEquipoForm(true)
+                    : setShowUserForm(true)
+                }
                 className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white px-6 py-2 rounded-lg hover:from-[#2079AB] hover:to-[#0E3855] transition-all duration-300 flex items-center gap-2 shadow-lg"
               >
                 <svg
@@ -756,7 +904,7 @@ export default function AdminPanel() {
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent"
                   >
                     <option value="todos">Todos los servicios</option>
-                {servicios.map((servicio) => (
+                    {servicios.map((servicio) => (
                       <option key={servicio.id} value={servicio.id}>
                         {servicio.nombre} ({servicio.categoria})
                       </option>
@@ -841,436 +989,297 @@ export default function AdminPanel() {
           <>
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredEquipos.map((equipo) => (
-              <div
-                key={equipo.id}
-                className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group"
-              >
-                {/* Imagen */}
-                <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
-                  {equipo.url_portada ? (
-                    <img
-                      src={equipo.url_portada}
-                      alt={equipo.nombre}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <svg
-                        className="w-16 h-16 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                {filteredEquipos.map((equipo) => (
+                  <div
+                    key={equipo.id}
+                    className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group"
+                  >
+                    {/* Imagen */}
+                    <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200">
+                      {equipo.url_portada ? (
+                        <img
+                          src={equipo.url_portada}
+                          alt={equipo.nombre}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                      </svg>
-                    </div>
-                  )}
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-[#0E3855] text-white px-2 py-1 rounded-full text-xs font-medium">
-                      {equipo.servicio?.categoria}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Contenido */}
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-[#0E3855] transition-colors">
-                      {equipo.nombre}
-                        </h3>
-                  </div>
-
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {equipo.descripcion || "Sin descripción"}
-                  </p>
-
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-[#2079AB]">
-                      ${equipo.precio?.toLocaleString() || "N/A"}
-                    </span>
-                      </div>
-
-                  <div className="text-xs text-gray-500 mb-4">
-                    <span className="inline-flex items-center">
-                      <svg
-                        className="w-3 h-3 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                        />
-                      </svg>
-                      {equipo.servicio?.nombre}
-                    </span>
-                  </div>
-
-                  {/* Botones de acción */}
-                  <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                        setEditingEquipo(equipo);
-                        setEquipoImageUrl(equipo.url_portada || "");
-                      }}
-                      className="flex-1 bg-yellow-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors flex items-center justify-center gap-1"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                        />
-                      </svg>
-                          Editar
-                        </button>
-                        <button
-                      onClick={() => handleDeleteEquipo(equipo.id)}
-                      className="flex-1 bg-red-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center justify-center gap-1"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                          Eliminar
-                        </button>
-                      </div>
-                    </div>
-              </div>
-                ))}
-            </div>
-            ) : (
-              /* Vista de lista */
-              <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Equipo
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Servicio
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Precio
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Descripción
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Acciones
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {filteredEquipos.map((equipo) => (
-                    <tr
-                      key={equipo.id}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 mr-4">
-                            {equipo.url_portada ? (
-                              <img
-                                src={equipo.url_portada}
-                                alt={equipo.nombre}
-                                className="w-full h-full object-cover rounded-lg"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <svg
-                                  className="w-6 h-6 text-gray-400"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
-                                  />
-                                </svg>
-          </div>
-        )}
-                          </div>
-          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              {equipo.nombre}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              ID: {equipo.id}
-                            </p>
-                          </div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <svg
+                            className="w-16 h-16 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                            />
+                          </svg>
                         </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0E3855] text-white">
-                            {equipo.servicio?.categoria}
-                          </span>
-                          <span className="ml-2 text-sm text-gray-600">
-                            {equipo.servicio?.nombre}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-lg font-semibold text-[#2079AB]">
-                          ${equipo.precio?.toLocaleString() || "N/A"}
+                      )}
+                      <div className="absolute top-3 right-3">
+                        <span className="bg-[#0E3855] text-white px-2 py-1 rounded-full text-xs font-medium">
+                          {equipo.servicio?.categoria}
                         </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <p className="text-sm text-gray-600 max-w-xs truncate">
-                          {equipo.descripcion || "Sin descripción"}
-                        </p>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-              <button
-                            onClick={() => {
-                              setEditingEquipo(equipo);
-                              setEquipoImageUrl(equipo.url_portada || "");
-                            }}
-                            className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-colors"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                              />
-                            </svg>
-                          </button>
-                          <button
-                            onClick={() => handleDeleteEquipo(equipo.id)}
-                            className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-              </button>
-            </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          /* Sección de gestión de usuarios */
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Equipo
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Servicio
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Precio
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Descripción
-                    </th>
-                    <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Acciones
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {filteredEquipos.map((equipo) => (
-                    <tr
-                      key={equipo.id}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 mr-4">
-                            {equipo.url_portada ? (
-                              <img
-                                src={equipo.url_portada}
-                                alt={equipo.nombre}
-                                className="w-full h-full object-cover rounded-lg"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <svg
-                                  className="w-6 h-6 text-gray-400"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
-                                  />
-                                </svg>
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
+                      </div>
+                    </div>
+
+                    {/* Contenido */}
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 className="text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-[#0E3855] transition-colors">
                           {equipo.nombre}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              ID: {equipo.id}
-                        </p>
+                        </h3>
                       </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0E3855] text-white">
-                            {equipo.servicio?.categoria}
-                          </span>
-                          <span className="ml-2 text-sm text-gray-600">
-                            {equipo.servicio?.nombre}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-lg font-semibold text-[#2079AB]">
+
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                        {equipo.descripcion || "Sin descripción"}
+                      </p>
+
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-2xl font-bold text-[#2079AB]">
                           ${equipo.precio?.toLocaleString() || "N/A"}
                         </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <p className="text-sm text-gray-600 max-w-xs truncate">
-                          {equipo.descripcion || "Sin descripción"}
-                        </p>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                      </div>
+
+                      <div className="text-xs text-gray-500 mb-4">
+                        <span className="inline-flex items-center">
+                          <svg
+                            className="w-3 h-3 mr-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                            />
+                          </svg>
+                          {equipo.servicio?.nombre}
+                        </span>
+                      </div>
+
+                      {/* Botones de acción */}
+                      <div className="flex gap-2">
                         <button
                           onClick={() => {
                             setEditingEquipo(equipo);
                             setEquipoImageUrl(equipo.url_portada || "");
                           }}
-                            className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-colors"
+                          className="flex-1 bg-yellow-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-yellow-600 transition-colors flex items-center justify-center gap-1"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
                           >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                              />
-                            </svg>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                          Editar
                         </button>
                         <button
                           onClick={() => handleDeleteEquipo(equipo.id)}
-                            className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
+                          className="flex-1 bg-red-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-red-600 transition-colors flex items-center justify-center gap-1"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
                           >
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                          Eliminar
                         </button>
                       </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
                     </div>
-          </div>
-          )}
-
-          {/* Mensaje cuando no hay equipos */}
-          {filteredEquipos.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
-                  />
-                </svg>
+                  </div>
+                ))}
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No se encontraron equipos
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Intenta ajustar los filtros o agregar nuevos equipos.
-              </p>
-              <button
-                onClick={() => setShowEquipoForm(true)}
-                className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white px-6 py-2 rounded-lg hover:from-[#2079AB] hover:to-[#0E3855] transition-all duration-300"
-              >
-                Agregar Primer Equipo
-              </button>
-            </div>
-          )}
+            ) : (
+              /* Vista de lista */
+              <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Equipo
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Servicio
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Precio
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Descripción
+                        </th>
+                        <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Acciones
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {filteredEquipos.map((equipo) => (
+                        <tr
+                          key={equipo.id}
+                          className="hover:bg-gray-50 transition-colors"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center">
+                              <div className="w-12 h-12 bg-gray-100 rounded-lg flex-shrink-0 mr-4">
+                                {equipo.url_portada ? (
+                                  <img
+                                    src={equipo.url_portada}
+                                    alt={equipo.nombre}
+                                    className="w-full h-full object-cover rounded-lg"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center">
+                                    <svg
+                                      className="w-6 h-6 text-gray-400"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                                      />
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">
+                                  {equipo.nombre}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  ID: {equipo.id}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex items-center">
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0E3855] text-white">
+                                {equipo.servicio?.categoria}
+                              </span>
+                              <span className="ml-2 text-sm text-gray-600">
+                                {equipo.servicio?.nombre}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="text-lg font-semibold text-[#2079AB]">
+                              ${equipo.precio?.toLocaleString() || "N/A"}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <p className="text-sm text-gray-600 max-w-xs truncate">
+                              {equipo.descripcion || "Sin descripción"}
+                            </p>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => {
+                                  setEditingEquipo(equipo);
+                                  setEquipoImageUrl(equipo.url_portada || "");
+                                }}
+                                className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-colors"
+                              >
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                  />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => handleDeleteEquipo(equipo.id)}
+                                className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
+                              >
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+            {/* Mensaje cuando no hay equipos */}
+            {filteredEquipos.length === 0 && (
+              <div className="text-center py-12">
+                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    className="w-12 h-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No se encontraron equipos
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Intenta ajustar los filtros o agregar nuevos equipos.
+                </p>
+                <button
+                  onClick={() => setShowEquipoForm(true)}
+                  className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white px-6 py-2 rounded-lg hover:from-[#2079AB] hover:to-[#0E3855] transition-all duration-300"
+                >
+                  Agregar Primer Equipo
+                </button>
+              </div>
+            )}
           </>
         ) : (
           /* Sección de gestión de usuarios */
@@ -1298,33 +1307,50 @@ export default function AdminPanel() {
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                    <tr
+                      key={user.id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
                       <td className="px-6 py-4">
                         <div className="flex items-center">
                           <div className="w-10 h-10 bg-gradient-to-br from-[#0E3855] to-[#2079AB] rounded-full flex items-center justify-center mr-4">
                             <span className="text-white font-bold text-sm">
-                              {user.nombre_completo.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                              {user.nombre_completo
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                                .toUpperCase()
+                                .slice(0, 2)}
                             </span>
                           </div>
                           <div>
                             <p className="text-sm font-medium text-gray-900">
                               {user.nombre_completo}
                             </p>
-                            <p className="text-xs text-gray-500">ID: {user.id}</p>
+                            <p className="text-xs text-gray-500">
+                              ID: {user.id}
+                            </p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm text-gray-900">{user.correo}</span>
+                        <span className="text-sm text-gray-900">
+                          {user.correo}
+                        </span>
                       </td>
                       <td className="px-6 py-4">
                         <select
                           value={user.rol_id}
-                          onChange={(e) => handleChangeUserRole(user.id, parseInt(e.target.value))}
+                          onChange={(e) =>
+                            handleChangeUserRole(
+                              user.id,
+                              parseInt(e.target.value)
+                            )
+                          }
                           className={`text-xs font-medium px-2.5 py-0.5 rounded-full border-0 ${
                             user.rol_id === 1
-                              ? 'bg-red-100 text-red-800'
-                              : 'bg-green-100 text-green-800'
+                              ? "bg-red-100 text-red-800"
+                              : "bg-green-100 text-green-800"
                           }`}
                         >
                           <option value={1}>Administrador</option>
@@ -1333,7 +1359,9 @@ export default function AdminPanel() {
                       </td>
                       <td className="px-6 py-4">
                         <span className="text-sm text-gray-600">
-                          {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
+                          {user.created_at
+                            ? new Date(user.created_at).toLocaleDateString()
+                            : "N/A"}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
@@ -1342,16 +1370,36 @@ export default function AdminPanel() {
                             onClick={() => setEditingUser(user)}
                             className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition-colors"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
                             </svg>
                           </button>
                           <button
                             onClick={() => handleDeleteUser(user.id)}
                             className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
                             </svg>
                           </button>
                         </div>
@@ -1361,17 +1409,31 @@ export default function AdminPanel() {
                 </tbody>
               </table>
             </div>
-            
+
             {/* Mensaje cuando no hay usuarios */}
             {filteredUsers.length === 0 && (
               <div className="text-center py-12">
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                  <svg
+                    className="w-12 h-12 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                    />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No se encontraron usuarios</h3>
-                <p className="text-gray-600 mb-4">Intenta ajustar los filtros o agregar nuevos usuarios.</p>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No se encontraron usuarios
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Intenta ajustar los filtros o agregar nuevos usuarios.
+                </p>
                 <button
                   onClick={() => setShowUserForm(true)}
                   className="bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white px-6 py-2 rounded-lg hover:from-[#2079AB] hover:to-[#0E3855] transition-all duration-300"
@@ -1391,7 +1453,7 @@ export default function AdminPanel() {
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-gray-900">
                 {editingEquipo ? "Editar Equipo" : "Nuevo Equipo"}
-            </h3>
+              </h3>
               <button
                 onClick={() => {
                   setShowEquipoForm(false);
@@ -1433,21 +1495,21 @@ export default function AdminPanel() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Nombre del equipo *
                   </label>
-              <input
-                name="nombre"
-                type="text"
+                  <input
+                    name="nombre"
+                    type="text"
                     placeholder="Ej: Bomba Centrífuga Industrial"
                     defaultValue={editingEquipo?.nombre || ""}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent transition-all duration-300"
-                required
-              />
+                    required
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Precio (USD)
                   </label>
-              <input
+                  <input
                     name="precio"
                     type="number"
                     step="0.01"
@@ -1481,8 +1543,8 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Descripción
                 </label>
-              <textarea
-                name="descripcion"
+                <textarea
+                  name="descripcion"
                   placeholder="Descripción detallada del equipo, especificaciones técnicas, características principales..."
                   defaultValue={editingEquipo?.descripcion || ""}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent transition-all duration-300"
@@ -1494,13 +1556,13 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Imagen del equipo
                 </label>
-              <ImageUpload
+                <ImageUpload
                   onImageUploaded={(url) => setEquipoImageUrl(url)}
                   currentImageUrl={editingEquipo?.url_portada}
-              />
-              <input
-                name="url_portada"
-                type="hidden"
+                />
+                <input
+                  name="url_portada"
+                  type="hidden"
                   value={equipoImageUrl || editingEquipo?.url_portada || ""}
                 />
               </div>
@@ -1536,7 +1598,7 @@ export default function AdminPanel() {
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-gray-900">
                 {editingUser ? "Editar Usuario" : "Nuevo Usuario"}
-            </h3>
+              </h3>
               <button
                 onClick={() => {
                   setShowUserForm(false);
@@ -1544,8 +1606,18 @@ export default function AdminPanel() {
                 }}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
@@ -1566,21 +1638,21 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Nombre completo *
                 </label>
-              <input
+                <input
                   name="nombre_completo"
-                type="text"
+                  type="text"
                   placeholder="Ej: Juan Carlos Pérez"
                   defaultValue={editingUser?.nombre_completo || ""}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent transition-all duration-300"
-                required
-              />
+                  required
+                />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Correo electrónico *
                 </label>
-              <input
+                <input
                   name="correo"
                   type="email"
                   placeholder="usuario@empresa.com"
@@ -1592,12 +1664,15 @@ export default function AdminPanel() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Contraseña {editingUser ? "(dejar vacío para mantener actual)" : "*"}
+                  Contraseña{" "}
+                  {editingUser ? "(dejar vacío para mantener actual)" : "*"}
                 </label>
-              <input
+                <input
                   name="password"
                   type="password"
-                  placeholder={editingUser ? "Nueva contraseña (opcional)" : "Contraseña"}
+                  placeholder={
+                    editingUser ? "Nueva contraseña (opcional)" : "Contraseña"
+                  }
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent transition-all duration-300"
                   required={!editingUser}
                 />
@@ -1607,15 +1682,15 @@ export default function AdminPanel() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Rol *
                 </label>
-              <select
+                <select
                   name="rol_id"
                   defaultValue={editingUser?.rol_id || "2"}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-[#2079AB] focus:border-transparent transition-all duration-300"
-                required
-              >
+                  required
+                >
                   <option value="2">Usuario Regular</option>
                   <option value="1">Administrador</option>
-              </select>
+                </select>
               </div>
 
               <div className="flex gap-4 pt-6 border-t border-gray-200">

@@ -3,7 +3,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/api";
 import EmailVerification from "@/components/EmailVerification";
-import { generateVerificationCode, sendVerificationEmail } from "@/lib/emailService";
+import {
+  generateVerificationCode,
+  sendVerificationEmail,
+} from "@/lib/emailService";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -38,16 +41,19 @@ export default function AuthPage() {
           new Date().getTime().toString()
         );
 
-      // ENVÍO REAL DEL CÓDIGO POR EMAIL
-      const emailSent = await sendVerificationEmail(correo, verificationCode, nombre || "Usuario");
-      if (!emailSent) {
-        setError("No se pudo enviar el código de verificación por email. Intenta nuevamente.");
-        setLoading(false);
-        return;
-      }
+        // ENVÍO REAL DEL CÓDIGO POR EMAIL
+        const emailSent = await sendVerificationEmail(correo, verificationCode);
+        if (!emailSent) {
+          setError(
+            "No se pudo enviar el código de verificación por email. Intenta nuevamente."
+          );
+          setLoading(false);
+          return;
+        }
 
-      alert(`Código de verificación enviado a ${correo}. Revisa tu correo electrónico.`);
-
+        alert(
+          `Código de verificación enviado a ${correo}. Revisa tu correo electrónico.`
+        );
 
         setShowVerification(true);
       } else {
@@ -60,13 +66,16 @@ export default function AuthPage() {
         };
 
         // Hacer request directo para registro (apiClient no tiene método register)
-        const response = await fetch("http://localhost:8000/auth/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(registerData),
-        });
+        const response = await fetch(
+          "https://mawell-backend-fastapi-1.onrender.com/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(registerData),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -77,8 +86,9 @@ export default function AuthPage() {
         alert(`Registro exitoso: ${user.nombre_completo}`);
         setIsLogin(true); // Vuelve al login tras registrarse
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ocurrió un error";
+      setError(message);
     } finally {
       setLoading(false);
     }

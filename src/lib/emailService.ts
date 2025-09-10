@@ -14,8 +14,7 @@ export const generateVerificationCode = (): string => {
 // Función para enviar email de verificación
 export const sendVerificationEmail = async (
   userEmail: string,
-  verificationCode: string,
-  userName: string = "Usuario"
+  verificationCode: string
 ): Promise<boolean> => {
   try {
     const templateParams = {

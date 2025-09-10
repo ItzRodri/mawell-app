@@ -1,5 +1,7 @@
 // API Client para conectar con el backend FastAPI
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://mawell-backend-fastapi-1.onrender.com";
 
 interface LoginResponse {
   access_token: string;
@@ -143,7 +145,12 @@ class ApiClient {
     return this.token !== null;
   }
 
-  getUserData(): any {
+  getUserData(): {
+    id: number;
+    name: string;
+    email: string;
+    role: number;
+  } | null {
     if (typeof window !== "undefined") {
       const userData = localStorage.getItem("user_data");
       return userData ? JSON.parse(userData) : null;

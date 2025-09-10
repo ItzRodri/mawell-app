@@ -2,11 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  assistantApi,
-  ConversationResponse,
-  MessageResponse,
-} from "@/lib/assistant-api";
+import { assistantApi, ConversationResponse } from "@/lib/assistant-api";
 
 // Message shape adaptado para el asistente virtual
 interface ChatMessage {

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import Image from "next/image";
 import apiClient from "@/lib/api";
 
 interface Equipo {
@@ -83,7 +82,8 @@ export default function EquipmentTypes() {
     if (!url_portada) return "/services/logo-servicio.svg";
     if (url_portada.startsWith("/files/")) {
       return `${
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://mawell-backend-fastapi-1.onrender.com"
       }${url_portada}`;
     }
     return url_portada;

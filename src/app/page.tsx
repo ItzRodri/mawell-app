@@ -1,6 +1,3 @@
-import Image from "next/image";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import HomePage from "./pages/homepage/page";
 export const metadata = {
   title: "Mawell S.R.L.",
@@ -10,9 +7,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-
       <HomePage />
-     
     </>
   );
 }

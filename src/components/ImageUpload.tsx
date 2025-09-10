@@ -46,7 +46,7 @@ export default function ImageUpload({
       const response = await apiClient.uploadImage(file);
 
       // Actualizar con la URL del servidor
-      const serverUrl = `http://localhost:8000${response.image_url}`;
+      const serverUrl = `https://mawell-backend-fastapi-1.onrender.com/${response.image_url}`;
       setPreviewUrl(serverUrl);
       onImageUploaded(response.image_url);
 
@@ -191,7 +191,9 @@ export default function ImageUpload({
           value={
             previewUrl &&
             !previewUrl.startsWith("blob:") &&
-            !previewUrl.startsWith("http://localhost:8000")
+            !previewUrl.startsWith(
+              "https://mawell-backend-fastapi-1.onrender.com/"
+            )
               ? previewUrl
               : ""
           }

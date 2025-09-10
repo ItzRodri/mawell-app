@@ -118,7 +118,7 @@ export default function EmailVerification({
         setCode(["", "", "", "", "", ""]);
         inputRefs.current[0]?.focus();
       }
-    } catch (err) {
+    } catch {
       setError("Error al verificar el código. Intenta nuevamente.");
     } finally {
       setLoading(false);
@@ -146,7 +146,7 @@ export default function EmailVerification({
       console.log("Nuevo código enviado:", newCode); // Para testing
 
       alert(`Nuevo código enviado a ${email}`);
-    } catch (err) {
+    } catch {
       setError("Error al reenviar el código.");
     } finally {
       setLoading(false);
@@ -186,7 +186,9 @@ export default function EmailVerification({
           {code.map((digit, index) => (
             <input
               key={index}
-              ref={(el) => (inputRefs.current[index] = el)}
+              ref={(el) => {
+                inputRefs.current[index] = el;
+              }}
               type="text"
               inputMode="numeric"
               maxLength={1}
