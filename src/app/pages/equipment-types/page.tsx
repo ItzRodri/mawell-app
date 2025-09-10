@@ -1,6 +1,5 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import Image from "next/image";
 import apiClient from "@/lib/api";
 
 interface Equipo {
@@ -83,7 +82,8 @@ export default function EquipmentTypes() {
     if (!url_portada) return "/services/logo-servicio.svg";
     if (url_portada.startsWith("/files/")) {
       return `${
-        process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://mawell-backend-fastapi-1.onrender.com"
       }${url_portada}`;
     }
     return url_portada;
@@ -121,7 +121,7 @@ export default function EquipmentTypes() {
                 placeholder="Buscar equipos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-6 py-4 rounded-full text-gray-800 text-lg focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="w-full px-6 py-4 rounded-full text-gray-800 ring-1 ring-gray-300 text-lg focus:outline-none focus:ring-4 focus:ring-white/30"
               />
               <svg
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400"
@@ -283,12 +283,7 @@ export default function EquipmentTypes() {
           </p>
           <button
             onClick={() => {
-              const message =
-                "Hola! Me gustaría recibir información sobre equipos industriales. ¿Podrían ayudarme?";
-              const whatsappUrl = `https://wa.me/59177824274?text=${encodeURIComponent(
-                message
-              )}`;
-              window.open(whatsappUrl, "_blank");
+              window.location.href = "/pages/about-us#contact-form";
             }}
             className="bg-white text-[#2079AB] px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
           >

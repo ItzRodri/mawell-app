@@ -1,5 +1,7 @@
 // API Client para conectar con el backend FastAPI
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://mawell-backend-fastapi-1.onrender.com";
 
 interface LoginResponse {
   access_token: string;
@@ -143,7 +145,12 @@ class ApiClient {
     return this.token !== null;
   }
 
-  getUserData(): any {
+  getUserData(): {
+    id: number;
+    name: string;
+    email: string;
+    role: number;
+  } | null {
     if (typeof window !== "undefined") {
       const userData = localStorage.getItem("user_data");
       return userData ? JSON.parse(userData) : null;
@@ -272,6 +279,44 @@ class ApiClient {
   ): Promise<{ message: string; deleted_files: string[] }> {
     return this.request(`/files/images/${filename}`, {
       method: "DELETE",
+    });
+  }
+
+  // Gestión de usuarios (solo admin)
+  async getUsers(): Promise<User[]> {
+    return this.request<User[]>("/admin/users");
+  }
+
+  async getUser(id: number): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`);
+  }
+
+  async updateUser(id: number, user: Partial<User>): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(user),
+    });
+  }
+
+  async deleteUser(id: number): Promise<{ message: string }> {
+    return this.request(`/admin/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
+  async createUser(
+    user: Omit<User, "id"> & { password: string }
+  ): Promise<User> {
+    return this.request<User>("/admin/users", {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
+  }
+
+  async changeUserRole(id: number, rol_id: number): Promise<User> {
+    return this.request<User>(`/admin/users/${id}/role`, {
+      method: "PUT",
+      body: JSON.stringify({ rol_id }),
     });
   }
 }

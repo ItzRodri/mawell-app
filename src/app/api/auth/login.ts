@@ -1,6 +1,6 @@
 // src/app/api/auth/login.ts
 
-import { User } from "@/app/models/User";
+// removed unused import
 
 export interface LoginResponse {
   message: string;
@@ -25,7 +25,9 @@ export async function loginUser(
 
     const data = await response.json();
     return data;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Error en el login";
+    throw new Error(message);
   }
 }

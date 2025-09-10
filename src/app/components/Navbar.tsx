@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface UserData {
@@ -59,7 +60,7 @@ export default function Navbar() {
   };
 
   const getButtonText = () => {
-    if (!userData) return "Logéate";
+    if (!userData) return "Iniciar sesión";
     return userData.role === 1 ? "Dashboard" : "Asistente";
   };
 
@@ -69,39 +70,39 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <a href="/" className="text-white text-2xl font-bold">
+              <Link href="/" className="text-white text-2xl font-bold">
                 <img
                   src="/mawell-icon.svg"
                   alt="logo"
                   className="w-24 h-auto"
                 />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            <a
-              href="/chat"
+            <Link
+              href="/"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Inicio
-            </a>
+            </Link>
             {/* Servicios con menú desplegable */}
             <div
               className="relative group" // Añadido group para efectos
               onMouseEnter={() => setShowServicesDropdown(true)}
               onMouseLeave={() => setShowServicesDropdown(false)}
             >
-              <a
+              <Link
                 href="/pages/services"
-                className="text-white hover:bg-black hover:text-white rounded-lg p-2 group-hover:bg-black" // Añadido group-hover
+                className="text-white hover:bg-black hover:text-white rounded-lg p-2 group-hover:bg-black"
               >
                 Servicios
-              </a>
+              </Link>
               {showServicesDropdown && (
                 <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg mt-2 w-64 transition-all duration-300 ease-in-out">
                   <ul className="py-2">
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a
+                      <Link
                         href="/pages/services/mf"
                         className="px-4 py-3 flex items-center space-x-3"
                       >
@@ -109,10 +110,10 @@ export default function Navbar() {
                         <span className="text-sm text-gray-600">
                           Mantenimiento y Filtración
                         </span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a
+                      <Link
                         href="/pages/services/mt"
                         className="px-4 py-3 flex items-center space-x-3"
                       >
@@ -120,10 +121,10 @@ export default function Navbar() {
                         <span className="text-sm text-gray-600">
                           Mantenimiento Técnico
                         </span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a
+                      <Link
                         href="/pages/services/ml"
                         className="px-4 py-3 flex items-center space-x-3"
                       >
@@ -131,10 +132,10 @@ export default function Navbar() {
                         <span className="text-sm text-gray-600">
                           Mantenimiento de Laboratorio
                         </span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a
+                      <Link
                         href="/pages/services/mq"
                         className="px-4 py-3 flex items-center space-x-3"
                       >
@@ -142,10 +143,10 @@ export default function Navbar() {
                         <span className="text-sm text-gray-600">
                           Mantenimiento de Química
                         </span>
-                      </a>
+                      </Link>
                     </li>
                     <li className="hover:bg-gray-100 transition-colors duration-200">
-                      <a
+                      <Link
                         href="/pages/services/mb"
                         className="px-4 py-3 flex items-center space-x-3"
                       >
@@ -153,34 +154,28 @@ export default function Navbar() {
                         <span className="text-sm text-gray-600">
                           Mantenimiento Biológico
                         </span>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
               )}
             </div>
-            <a
+            <Link
               href="/pages/equipment-types"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Tipos de equipos
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pages/about-us"
               className="text-white hover:bg-black hover:text-white rounded-lg p-2"
             >
               Nosotros
-            </a>
+            </Link>
           </div>
           <div className="hidden md:flex items-center space-x-4">
             {isLoggedIn ? (
               <>
-                <button
-                  onClick={handleRedirect}
-                  className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full flex items-center transition duration-300"
-                >
-                  {getButtonText()}
-                </button>
                 <button
                   onClick={handleLogout}
                   className="ml-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
@@ -189,12 +184,12 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <a
+              <Link
                 href="/login"
                 className="ml-4 bg-black hover:bg-gray-900 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
               >
                 {getButtonText()}
-              </a>
+              </Link>
             )}
           </div>
           <div className="md:hidden flex items-center">
@@ -238,30 +233,30 @@ export default function Navbar() {
       {isClick && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 sm:space-y-1">
-            <a
+            <Link
               href="/"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-black hover:text-white"
             >
               Inicio
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              href="/pages/services"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-black hover:text-white"
             >
               Servicios
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              href="/pages/equipment-types"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-black hover:text-white"
             >
               Tipos de equipos
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              href="/pages/about-us"
               className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-black hover:text-white"
             >
               Nosotros
-            </a>
+            </Link>
             {/* Botón de login en mobile */}
             {isLoggedIn ? (
               <>
@@ -279,12 +274,12 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <a
+              <Link
                 href="/login"
                 className="block rounded-full px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-900 text-center mt-2"
               >
                 {getButtonText()}
-              </a>
+              </Link>
             )}
           </div>
         </div>

@@ -20,7 +20,9 @@ export async function registerUser(
 
     const data = await response.json();
     return data;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Error en el registro";
+    throw new Error(message);
   }
 }

@@ -44,9 +44,7 @@ export default function HomePage() {
               <div className="bg-gradient-to-r from-[#2079AB]/90 to-[#0E3855]/90 backdrop-blur-md rounded-2xl p-8 lg:p-12 shadow-2xl border border-white/10">
                 <div className="text-white">
                   <div className="inline-block bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-                    <span className="text-sm font-semibold">
-                      Bienvenidos
-                    </span>
+                    <span className="text-sm font-semibold">Bienvenidos</span>
                   </div>
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
                     <span className="">Mawell </span>
@@ -322,10 +320,208 @@ export default function HomePage() {
                     />
                   </svg>
                 </button>
-                <button className="border-2 border-[#0E3855] text-[#0E3855] px-8 py-4 rounded-lg font-bold hover:bg-[#0E3855] hover:text-white transition-all duration-300">
+                <button
+                  onClick={() => {
+                    const link = document.createElement("a");
+                    link.href = "/Brochure Mawell 2025.pdf";
+                    link.download = "Brochure Mawell 2025.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                  }}
+                  className="border-2 border-[#0E3855] text-[#0E3855] px-8 py-4 rounded-lg font-bold hover:bg-[#0E3855] hover:text-white transition-all duration-300 flex items-center gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
                   Descargar Brochure
                 </button>
+                <a
+                  href="https://maps.app.goo.gl/pPUaG1UXuvuPKJsL7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  Ver Ubicación
+                </a>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Misión, Visión y Objetivo */}
+      <section className="bg-gradient-to-br from-gray-50 via-white to-gray-100 py-20 relative overflow-hidden">
+        {/* Elementos decorativos de fondo */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-[#2079AB]/5 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-20 right-20 w-48 h-48 bg-[#0E3855]/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-[#2079AB]/3 to-[#0E3855]/3 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          {/* Header de la sección */}
+          <div className="text-center mb-16">
+            <span className="inline-block bg-gradient-to-r from-[#0E3855] to-[#2079AB] text-white px-6 py-3 rounded-full text-sm font-semibold mb-6 shadow-lg">
+              Nuestros Valores Corporativos
+            </span>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6">
+              Los Pilares que nos
+              <span className="block text-[#2079AB]">Definen</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Nuestra misión, visión y objetivo son la brújula que guía cada
+              proyecto, cada decisión y cada relación con nuestros clientes.
+            </p>
+          </div>
+
+          {/* Grid de valores */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Misión */}
+            <div className="group relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#0E3855] to-[#2079AB] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+              <div className="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#0E3855] to-[#2079AB] rounded-2xl mb-6 mx-auto group-hover:scale-110 transition-transform duration-300">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                  MISIÓN
+                </h3>
+                <div className="h-1 w-16 bg-gradient-to-r from-[#0E3855] to-[#2079AB] mx-auto mb-6 rounded-full"></div>
+                <p className="text-gray-700 leading-relaxed text-center">
+                  Mantener una relación de confianza y fidelidad con nuestros
+                  clientes brindando soluciones integrales a precios
+                  competitivos, creciendo continuamente apoyados en personal
+                  capacitado y tecnología de vanguardia. Trabajamos siempre con
+                  calidad y creatividad guiados por los principios de Dios.
+                </p>
+              </div>
+            </div>
+
+            {/* Visión */}
+            <div className="group relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#2079AB] to-[#1E6B96] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+              <div className="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#2079AB] to-[#1E6B96] rounded-2xl mb-6 mx-auto group-hover:scale-110 transition-transform duration-300">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                  VISIÓN
+                </h3>
+                <div className="h-1 w-16 bg-gradient-to-r from-[#2079AB] to-[#1E6B96] mx-auto mb-6 rounded-full"></div>
+                <p className="text-gray-700 leading-relaxed text-center">
+                  Alcanzar la satisfacción de nuestros clientes sustentada en el
+                  reconocimiento de la calidad de todos los servicios y
+                  productos que les brindamos.
+                </p>
+              </div>
+            </div>
+
+            {/* Objetivo */}
+            <div className="group relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#1E6B96] to-[#0E3855] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+              <div className="relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#1E6B96] to-[#0E3855] rounded-2xl mb-6 mx-auto group-hover:scale-110 transition-transform duration-300">
+                  <svg
+                    className="w-8 h-8 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                  OBJETIVO
+                </h3>
+                <div className="h-1 w-16 bg-gradient-to-r from-[#1E6B96] to-[#0E3855] mx-auto mb-6 rounded-full"></div>
+                <p className="text-gray-700 leading-relaxed text-center">
+                  Ayudar a nuestros clientes a obtener un rendimiento óptimo y
+                  los mejores resultados en sus equipos y procesos, traducidos
+                  en sistemas más eficientes que les permitan un ahorro
+                  significativo al momento de analizar los frutos de la
+                  inversión.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Elementos decorativos adicionales */}
+          <div className="mt-16 flex justify-center">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-2 bg-[#0E3855] rounded-full animate-pulse"></div>
+              <div
+                className="w-2 h-2 bg-[#2079AB] rounded-full animate-pulse"
+                style={{ animationDelay: "0.2s" }}
+              ></div>
+              <div
+                className="w-2 h-2 bg-[#1E6B96] rounded-full animate-pulse"
+                style={{ animationDelay: "0.4s" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -354,50 +550,52 @@ export default function HomePage() {
               </div>
 
               {/* Lista de servicios */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-sm">MF</span>
-                  </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                   <div>
-                    <h4 className="font-bold">Mantenimiento y Filtración</h4>
-                    <p className="text-sm text-white/80">Sistemas avanzados</p>
+                    <h4 className="font-bold">Control y Manejo de Fluidos</h4>
+                    <p className="text-sm text-white/80">
+                      Asesoría en equipos de dosificación, instalación, soporte
+                      y garantía.
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-sm">MT</span>
-                  </div>
+                <div className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                   <div>
-                    <h4 className="font-bold">Mantenimiento Técnico</h4>
-                    <p className="text-sm text-white/80">Predictivo 4.0</p>
+                    <h4 className="font-bold">
+                      Tecnología de Equipos, Insumos e Ingeniería
+                    </h4>
+                    <p className="text-sm text-white/80">
+                      Diseño de plantas, insumos y accesorios.
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-sm">ML</span>
-                  </div>
+                <div className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                   <div>
-                    <h4 className="font-bold">Mantenimiento Laboratorio</h4>
-                    <p className="text-sm text-white/80">Equipos analíticos</p>
+                    <h4 className="font-bold">
+                      Reactivos y Equipos de Laboratorio
+                    </h4>
+                    <p className="text-sm text-white/80">
+                      Provisión de reactivos y análisis de aguas.
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-sm">MQ</span>
-                  </div>
+                <div className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                   <div>
-                    <h4 className="font-bold">Mantenimiento Químico</h4>
-                    <p className="text-sm text-white/80">Procesos seguros</p>
+                    <h4 className="font-bold">Especialidades Químicas</h4>
+                    <p className="text-sm text-white/80">
+                      Asesoramiento y venta de soluciones para tratamiento de
+                      agua, productos para aplicaciones industriales.
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:col-span-2 lg:col-span-1">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-sm">MB</span>
-                  </div>
+                <div className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                   <div>
-                    <h4 className="font-bold">Mantenimiento Biológico</h4>
-                    <p className="text-sm text-white/80">Biotecnología</p>
+                    <h4 className="font-bold">Especialidades Biológicas</h4>
+                    <p className="text-sm text-white/80">
+                      Tratamiento de aguas residuales, grasas, suelos
+                      contaminados, piscicultura, necesidades agronómicas, etc.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -608,7 +806,7 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a
-                href="https://wa.me/59177824274"
+                href="https://wa.me/59162200930"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 transform hover:scale-105 flex items-center gap-2"

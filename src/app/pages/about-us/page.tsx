@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 
 export default function AboutUs() {
   const [activeTab, setActiveTab] = useState("historia");
@@ -15,9 +14,7 @@ export default function AboutUs() {
             {/* Contenido principal */}
             <div className="w-full lg:w-1/2 mb-10 lg:mb-0 lg:pr-12">
               <div className="inline-block bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-                <span className="text-sm font-semibold">
-                  Bienvenidos
-                </span>
+                <span className="text-sm font-semibold">Bienvenidos</span>
               </div>
               <h1 className="text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
                 MAWELL
@@ -52,6 +49,33 @@ export default function AboutUs() {
                 <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#0E3855] transition-all duration-300">
                   Contáctanos
                 </button>
+                <a
+                  href="https://maps.app.goo.gl/pPUaG1UXuvuPKJsL7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  Ver Ubicación
+                </a>
               </div>
             </div>
 
@@ -63,11 +87,6 @@ export default function AboutUs() {
                   alt="MAWELL Servicios Industriales"
                   className="w-full max-w-md lg:max-w-lg h-auto filter drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                  <p className="text-sm font-semibold">
-                    Certificado ISO 9001:2015
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -676,7 +695,7 @@ export default function AboutUs() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">
                   Solicita una Cotización
                 </h3>
-                <form className="space-y-6">
+                <form id="contact-form" className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">

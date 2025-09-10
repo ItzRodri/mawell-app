@@ -2,6 +2,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/api";
+import EmailVerification from "@/components/EmailVerification";
+import {
+  generateVerificationCode,
+  sendVerificationEmail,
+} from "@/lib/emailService";
 
 export default function AuthPage() {
   const router = useRouter();
@@ -11,6 +16,9 @@ export default function AuthPage() {
   const [contraseña, setContraseña] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationEmail, setVerificationEmail] = useState("");
+  const [userRole, setUserRole] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,14 +28,34 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         const response = await apiClient.login(correo, contraseña);
-        alert(`Login exitoso: ${response.user_name}`);
 
-        // Verificar si es admin y redirigir apropiadamente
-        if (response.user_role === 1) {
-          router.push("/admin");
-        } else {
-          router.push("/chat"); // o la página que corresponda para usuarios normales
+        // Si el login es exitoso, mostrar verificación por email
+        setVerificationEmail(correo);
+        setUserRole(response.user_role);
+
+        // Generar y guardar código de verificación
+        const verificationCode = generateVerificationCode();
+        localStorage.setItem("verificationCode", verificationCode);
+        localStorage.setItem(
+          "verificationTimestamp",
+          new Date().getTime().toString()
+        );
+
+        // ENVÍO REAL DEL CÓDIGO POR EMAIL
+        const emailSent = await sendVerificationEmail(correo, verificationCode);
+        if (!emailSent) {
+          setError(
+            "No se pudo enviar el código de verificación por email. Intenta nuevamente."
+          );
+          setLoading(false);
+          return;
         }
+
+        alert(
+          `Código de verificación enviado a ${correo}. Revisa tu correo electrónico.`
+        );
+
+        setShowVerification(true);
       } else {
         // Para registro, necesitamos adaptar la estructura
         const registerData = {
@@ -38,13 +66,16 @@ export default function AuthPage() {
         };
 
         // Hacer request directo para registro (apiClient no tiene método register)
-        const response = await fetch("http://localhost:8000/auth/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(registerData),
-        });
+        const response = await fetch(
+          "https://mawell-backend-fastapi-1.onrender.com/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(registerData),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -55,11 +86,34 @@ export default function AuthPage() {
         alert(`Registro exitoso: ${user.nombre_completo}`);
         setIsLogin(true); // Vuelve al login tras registrarse
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ocurrió un error";
+      setError(message);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Manejar verificación exitosa
+  const handleVerificationSuccess = () => {
+    setShowVerification(false);
+
+    // Redirigir según el rol del usuario
+    if (userRole === 1) {
+      router.push("/admin");
+    } else {
+      router.push("/pages/homepage"); // Redirigir al homepage como solicitaste
+    }
+  };
+
+  // Cancelar verificación
+  const handleVerificationCancel = () => {
+    setShowVerification(false);
+    setVerificationEmail("");
+    setUserRole(null);
+    // Limpiar código almacenado
+    localStorage.removeItem("verificationCode");
+    localStorage.removeItem("verificationTimestamp");
   };
 
   return (
@@ -136,6 +190,15 @@ export default function AuthPage() {
           </span>
         </p>
       </form>
+
+      {/* Modal de verificación por email */}
+      {showVerification && (
+        <EmailVerification
+          email={verificationEmail}
+          onVerificationSuccess={handleVerificationSuccess}
+          onCancel={handleVerificationCancel}
+        />
+      )}
     </div>
   );
 }

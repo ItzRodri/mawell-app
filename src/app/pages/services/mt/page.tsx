@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 
 export default function MTService() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -62,7 +61,7 @@ export default function MTService() {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
           <div className="max-w-xl z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 mt-20">
-              Tecnologia de Equipos, 
+              Tecnologia de Equipos,
               <br />
               Insumos e Ingenieria
             </h1>
