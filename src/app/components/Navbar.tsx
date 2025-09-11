@@ -38,7 +38,9 @@ export default function Navbar() {
   const toggleNavbar = () => {
     setIsClick(!isClick);
   };
-
+  const handleAdmin = () => {
+    router.push("/admin");
+  };
   const handleLogout = () => {
     // Limpiar todos los datos de autenticación
     localStorage.removeItem("access_token");
@@ -181,6 +183,12 @@ export default function Navbar() {
                   className="ml-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
                 >
                   Cerrar Sesión
+                </button>
+                <button
+                  onClick={handleAdmin}
+                  className="ml-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300"
+                >
+                  Admin
                 </button>
               </>
             ) : (
