@@ -216,14 +216,7 @@ export default function EquipmentTypes() {
                         {equipment.servicio?.categoria}
                       </span>
                     </div>
-                    {/* Price Tag */}
-                    {equipment.precio && (
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                          ${equipment.precio.toLocaleString()}
-                        </span>
-                      </div>
-                    )}
+                  
                   </div>
 
                   {/* Equipment Info */}
