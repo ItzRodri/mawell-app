@@ -29,7 +29,13 @@ export default function AuthPage() {
       if (isLogin) {
         const response = await apiClient.login(correo, contraseña);
 
-        // Si el login es exitoso, mostrar verificación por email
+        // Si es admin, no requiere verificación
+        if (response.user_role === 1) {
+          router.push("/admin");
+          return;
+        }
+
+        // Usuarios regulares: verificación por email
         setVerificationEmail(correo);
         setUserRole(response.user_role);
 
