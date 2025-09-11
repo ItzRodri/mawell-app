@@ -72,7 +72,7 @@ export default function EquipmentTypes() {
     }*\nServicio: ${equipment.servicio?.nombre}\nPrecio: $${
       equipment.precio?.toLocaleString() || "Consultar"
     }\n\nMe gustaría recibir más información sobre este equipo y una cotización.\n\n¡Gracias!`;
-    const whatsappUrl = `https://wa.me/59177824274?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/59162200930?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");

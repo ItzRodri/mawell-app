@@ -178,7 +178,7 @@ export default function Footer() {
             {/* CTAs compactos */}
             <div className="flex gap-3">
               <a
-                href="https://wa.me/59177824274"
+                href="https://wa.me/59162200930"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center gap-1"

@@ -158,6 +158,28 @@ class ApiClient {
     return null;
   }
 
+  // Gestión de usuarios (solo para admins)
+  async getUsers(): Promise<User[]> {
+    return this.request<User[]>("/auth/users");
+  }
+
+  async getUserById(id: number): Promise<User> {
+    return this.request<User>(`/auth/users/${id}`);
+  }
+
+  async updateUser(id: number, userData: Partial<User & { password?: string }>): Promise<User> {
+    return this.request<User>(`/auth/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(userData),
+    });
+  }
+
+  async deleteUser(id: number): Promise<{ message: string }> {
+    return this.request(`/auth/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
   // Servicios
   async getServicios(): Promise<Servicio[]> {
     return this.request<Servicio[]>("/servicios/");
@@ -282,26 +304,8 @@ class ApiClient {
     });
   }
 
-  // Gestión de usuarios (solo admin)
-  async getUsers(): Promise<User[]> {
-    return this.request<User[]>("/admin/users");
-  }
-
   async getUser(id: number): Promise<User> {
     return this.request<User>(`/admin/users/${id}`);
-  }
-
-  async updateUser(id: number, user: Partial<User>): Promise<User> {
-    return this.request<User>(`/admin/users/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(user),
-    });
-  }
-
-  async deleteUser(id: number): Promise<{ message: string }> {
-    return this.request(`/admin/users/${id}`, {
-      method: "DELETE",
-    });
   }
 
   async createUser(
