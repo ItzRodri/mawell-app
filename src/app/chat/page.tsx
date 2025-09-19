@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { assistantApi, ConversationResponse } from "@/lib/assistant-api";
+import TTSControls from "@/components/TTSControls";
 
 // Message shape adaptado para el asistente virtual
 interface ChatMessage {
@@ -61,11 +62,17 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
           {msg.content}
         </div>
         <div
-          className={`mt-1.5 text-xs ${
-            isUser ? "text-right text-gray-400" : "text-left text-gray-500"
-          }`}
+          className={`mt-1.5 flex items-center ${
+            isUser ? "justify-end text-gray-400" : "justify-between text-gray-500"
+          } text-xs`}
         >
-          {time}
+          <span>{time}</span>
+          {!isUser && (
+            <TTSControls 
+              text={msg.content} 
+              className="ml-3"
+            />
+          )}
         </div>
       </div>
 

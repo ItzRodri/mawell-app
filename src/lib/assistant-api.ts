@@ -1,5 +1,5 @@
 // Cliente API para el Asistente Virtual (servicio separado)
-const ASSISTANT_API_BASE = "http://localhost:8001"; // Puerto del virtual-assistant
+const ASSISTANT_API_BASE = "https://web-production-5abee.up.railway.app"; // Puerto del virtual-assistant
 
 // Interfaces del Asistente Virtual
 export interface ConversationCreate {

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/lib/api";
 import { assistantApi, ConversationResponse } from "@/lib/assistant-api";
+import TTSControls from "@/components/TTSControls";
+import useTTS from "@/hooks/useTTS";
 
 // Message shape adaptado para el asistente virtual
 interface ChatMessage {
@@ -62,11 +64,17 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
           {msg.content}
         </div>
         <div
-          className={`mt-1 text-xs ${
-            isUser ? "text-right text-gray-400" : "text-left text-gray-500"
-          }`}
+          className={`mt-1 flex items-center ${
+            isUser ? "justify-end text-gray-400" : "justify-between text-gray-500"
+          } text-xs`}
         >
-          {time}
+          <span>{time}</span>
+          {!isUser && (
+            <TTSControls 
+              text={msg.content} 
+              className="ml-2"
+            />
+          )}
         </div>
       </div>
 
@@ -85,10 +93,14 @@ export default function FloatingChatBubble() {
   const [assistantStatus, setAssistantStatus] = useState<
     "checking" | "online" | "offline"
   >("checking");
+  const [autoTTS, setAutoTTS] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  
+  // Hook de TTS para reproducción automática
+  const { speak: autoSpeak, isSupported: ttsSupported } = useTTS();
 
   // Verificar estado del asistente virtual al abrir el chat
   useEffect(() => {
@@ -159,6 +171,14 @@ export default function FloatingChatBubble() {
       };
 
       setChatHistory((prev) => [...prev, assistantMsg]);
+
+      // TTS automático si está habilitado
+      if (autoTTS && ttsSupported) {
+        // Pequeño delay para que el mensaje aparezca primero
+        setTimeout(() => {
+          autoSpeak(response.answer);
+        }, 500);
+      }
     } catch (error) {
       console.error("Error al procesar el mensaje:", error);
       setChatHistory((prev) => [
@@ -226,24 +246,42 @@ export default function FloatingChatBubble() {
                 <h3 className="font-semibold text-sm">Asistente Mawell</h3>
                 <StatusIndicator />
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white hover:text-gray-200 transition-colors"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <div className="flex items-center gap-2">
+                {/* Toggle de TTS automático */}
+                {ttsSupported && (
+                  <button
+                    onClick={() => setAutoTTS(!autoTTS)}
+                    className={`p-1.5 rounded-full transition-colors ${
+                      autoTTS 
+                        ? 'bg-white/20 text-white' 
+                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                    }`}
+                    title={autoTTS ? 'Desactivar TTS automático' : 'Activar TTS automático'}
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white hover:text-gray-200 transition-colors"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
