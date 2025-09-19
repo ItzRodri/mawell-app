@@ -2,9 +2,9 @@
 import emailjs from "@emailjs/browser";
 
 // Configuración de EmailJS (necesitarás crear cuenta gratuita en emailjs.com)
-const EMAILJS_SERVICE_ID = "service_wmxsp7g"; // Reemplazar con tu Service ID
-const EMAILJS_TEMPLATE_ID = "template_m5zl2dk"; // Reemplazar con tu Template ID
-const EMAILJS_PUBLIC_KEY = "_eLrhFJoE3cFQCh1B"; // Reemplazar con tu Public Key
+const EMAILJS_SERVICE_ID = "service_317qwwn"; // Reemplazar con tu Service ID
+const EMAILJS_TEMPLATE_ID = "template_gr7dmwf"; // Reemplazar con tu Template ID
+const EMAILJS_PUBLIC_KEY = "G5aafoUoGp_U6H1dL"; // Reemplazar con tu Public Key
 
 // Función para generar código de 6 dígitos
 export const generateVerificationCode = (): string => {
