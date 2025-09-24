@@ -15,7 +15,6 @@ export default function TTSControls({
   const {
     isSupported,
     isSpeaking,
-    error,
     speak,
     stop,
     canSpeak,

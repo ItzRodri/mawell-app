@@ -95,10 +95,6 @@ export default function HomePage() {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <div className="flex items-center gap-6 text-white">
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
-              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium">ISO 9001:2015</span>
-            </div>
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
               <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
               <span className="text-sm font-medium">Soporte 24/7</span>
             </div>

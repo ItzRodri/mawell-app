@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/lib/api";
 import ImageUpload from "@/components/ImageUpload";
@@ -45,11 +45,7 @@ export default function AdminPanel() {
   const [showEquipoForm, setShowEquipoForm] = useState(false);
   const [equipoImageUrl, setEquipoImageUrl] = useState<string>("");
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       if (!apiClient.isAuthenticated()) {
         router.push("/login");
@@ -71,7 +67,11 @@ export default function AdminPanel() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const loadData = async () => {
     try {

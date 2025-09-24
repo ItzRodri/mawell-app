@@ -79,6 +79,23 @@ export const useTTS = (options: TTSOptions = {}) => {
     };
   }, []);
 
+  // Función para detener
+  const stop = useCallback(() => {
+    speechSynthesis.cancel();
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setState(prev => ({ 
+      ...prev, 
+      isSpeaking: false, 
+      isPaused: false,
+      currentText: '',
+      error: null
+    }));
+    utteranceRef.current = null;
+  }, []);
+
   // Función para hablar texto
   const speak = useCallback((text: string) => {
     if (!state.isSupported) {
@@ -160,24 +177,7 @@ export const useTTS = (options: TTSOptions = {}) => {
         currentText: ''
       }));
     }
-  }, [state.isSupported, state.voices, rate, pitch, volume, lang]);
-
-  // Función para detener
-  const stop = useCallback(() => {
-    speechSynthesis.cancel();
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    setState(prev => ({ 
-      ...prev, 
-      isSpeaking: false, 
-      isPaused: false,
-      currentText: '',
-      error: null
-    }));
-    utteranceRef.current = null;
-  }, []);
+  }, [state.isSupported, state.voices, rate, pitch, volume, lang, stop]);
 
   return {
     // Estado
