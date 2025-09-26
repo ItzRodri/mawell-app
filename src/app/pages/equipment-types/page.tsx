@@ -216,7 +216,6 @@ export default function EquipmentTypes() {
                         {equipment.servicio?.categoria}
                       </span>
                     </div>
-                  
                   </div>
 
                   {/* Equipment Info */}

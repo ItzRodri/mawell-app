@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import edificiosImg from "/public/edificios.svg";
+import edificiosImg from "/public/contru.jpeg";
 import icono1 from "/public/servicios.svg";
 
 export default function HomePage() {
