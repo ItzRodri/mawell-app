@@ -117,7 +117,7 @@ export default function ServicesPage() {
 
             {/* Content */}
             <div className="relative h-full">
-              <div className="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-between">
+              <div className="container mx-auto px-6 h-full flex flex-col lg:flex-row items-center justify-around">
                 {/* Text Content */}
                 <div className="max-w-xl z-10">
                   <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-white">
@@ -145,7 +145,7 @@ export default function ServicesPage() {
                   <img
                     src={getImageUrl(service.url_portada)}
                     alt={service.nombre}
-                    className="w-48 lg:w-64 mt-12 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
+                    className="w-48 lg:w-120 mt-0 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
                   />
                 </div>
               </div>
