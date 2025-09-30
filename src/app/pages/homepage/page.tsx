@@ -676,7 +676,7 @@ export default function HomePage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl fIndustria Font-bold text-gray-900 mb-4">
                 Industria Farmacéutica
               </h3>
               <p className="text-gray-600 mb-4">
@@ -684,7 +684,7 @@ export default function HomePage() {
                 contaminación en 99.8% para una planta farmacéutica líder.
               </p>
               <div className="flex items-center text-[#2079AB] font-semibold">
-                <span>Ver caso completo</span>
+                <span onClick={() => window.open("https://www.facebook.com/share/19GPQKT4rW/", "_blank")}>Ver caso completo</span>
                 <svg
                   className="w-4 h-4 ml-2"
                   fill="none"
@@ -723,7 +723,7 @@ export default function HomePage() {
                 equipos críticos en 35% y redujo costos de mantenimiento.
               </p>
               <div className="flex items-center text-[#2079AB] font-semibold">
-                <span>Ver caso completo</span>
+                <span onClick={() => window.open("https://www.facebook.com/share/19GPQKT4rW/", "_blank")}>Ver caso completo</span>
                 <svg
                   className="w-4 h-4 ml-2"
                   fill="none"
@@ -764,7 +764,7 @@ export default function HomePage() {
                 eficiencia operativa en 45% y garantizó calidad del agua.
               </p>
               <div className="flex items-center text-[#2079AB] font-semibold">
-                <span>Ver caso completo</span>
+                <span onClick={() => window.open("https://www.facebook.com/share/19GPQKT4rW/", "_blank")}>Ver caso completo</span>
                 <svg
                   className="w-4 h-4 ml-2"
                   fill="none"
