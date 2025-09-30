@@ -1,8 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import apiClient from "@/lib/api";
 
 export default function MFService() {
   const [activeSection, setActiveSection] = useState("overview");
+  const [service, setService] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadService();
+  }, []);
+
+  const loadService = async () => {
+    try {
+      const servicios = await apiClient.getServicios();
+      const mfService = servicios.find(s => s.categoria === 'MF');
+      setService(mfService);
+    } catch (error) {
+      console.error("Error cargando servicio MF:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (url_portada?: string) => {
+    if (!url_portada) return "/services/logo-servicio.svg";
+    if (url_portada.startsWith("/files/")) {
+      return `${
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://mawell-backend-fastapi-1.onrender.com"
+      }${url_portada}`;
+    }
+    return url_portada;
+  };
 
   const fluidSystems = [
     {
@@ -93,11 +123,20 @@ export default function MFService() {
             </div>
           </div>
           <div className="relative">
-            <img
-              src="/services/tesla.svg"
-              alt="Mantenimiento y Filtración"
-              className="w-48 lg:w-64 mt-12 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
-            />
+            {loading ? (
+              <div className="w-48 lg:w-64 h-48 lg:h-64 mt-12 lg:mt-0 flex items-center justify-center bg-white/10 rounded-lg">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                  <span className="text-white/80 text-sm">Cargando imagen...</span>
+                </div>
+              </div>
+            ) : (
+              <img
+                src={service ? getImageUrl(service.url_portada) : "/services/tesla.svg"}
+                alt={service?.nombre || "Mantenimiento y Filtración"}
+                className="w-48 lg:w-120 mt-12 lg:mt-0 filter drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
+              />
+            )}
           </div>
         </div>
         <span className="absolute left-8 top-[50%] transform -translate-y-1/2 text-6xl lg:text-8xl font-bold opacity-20 text-white">
