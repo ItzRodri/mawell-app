@@ -2,9 +2,19 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/lib/api";
 
+interface Servicio {
+  id: number;
+  nombre: string;
+  categoria: string;
+  descripcion?: string;
+  url_portada?: string;
+  garantia?: string;
+  usuario_id: number;
+}
+
 export default function MFService() {
   const [activeSection, setActiveSection] = useState("overview");
-  const [service, setService] = useState<any>(null);
+  const [service, setService] = useState<Servicio | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +25,7 @@ export default function MFService() {
     try {
       const servicios = await apiClient.getServicios();
       const mfService = servicios.find(s => s.categoria === 'MF');
-      setService(mfService);
+      setService(mfService || null);
     } catch (error) {
       console.error("Error cargando servicio MF:", error);
     } finally {
@@ -124,7 +134,7 @@ export default function MFService() {
           </div>
           <div className="relative">
             {loading ? (
-              <div className="w-48 lg:w-64 h-48 lg:h-64 mt-12 lg:mt-0 flex items-center justify-center bg-white/10 rounded-lg">
+              <div className="w-48 lg:w-120 h-48 lg:h-120 mt-12 lg:mt-0 flex items-center justify-center bg-white/10 rounded-lg">
                 <div className="flex flex-col items-center gap-3">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
                   <span className="text-white/80 text-sm">Cargando imagen...</span>
