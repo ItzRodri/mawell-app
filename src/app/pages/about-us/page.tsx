@@ -83,7 +83,7 @@ export default function AboutUs() {
             <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
               <div className="relative">
                 <img
-                  src="/about-us/about-us-portada.svg"
+                  src="/about-us/Transparente.png"
                   alt="MAWELL Servicios Industriales"
                   className="w-full max-w-md lg:max-w-lg h-auto filter drop-shadow-2xl transform hover:scale-105 transition-transform duration-500"
                 />
